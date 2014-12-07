@@ -1,12 +1,17 @@
 Rails.application.routes.draw do
 
+  root "users#new"
+
   get 'parties/index'
 
   get 'parties/show'
 
   get 'parties/new'
 
-  get 'users/new'
+  get 'users/index'
+
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
