@@ -16,16 +16,16 @@ class PartiesController < ApplicationController
   def show
   	@party = Party.find(params[:id])
 
-  	# @users = Array.new
+  	@users = Array.new
 
-  	# partyUsers = PartyUser.where(party_id: @party.id)
+  	partyUsers = PartyUser.where(party_id: params[:id])
 
-   #  number=0
+    i=0
 
-  	# partyUsers.each do |u|
-  	# 	@users[number] = User.find(u.user_id)
-  	# 	number += 1
-  	# end
+  	partyUsers.each do |p|
+  		@users[i] = User.find(p.user_id)
+  		i += 1
+  	end
 
   	render status: 404 unless @party != nil
   end 

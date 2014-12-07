@@ -2,6 +2,13 @@
 
 <p><%= @party.description %></p>
 
+<h2>Participants :</h2>
+
+<% @users.each do |u| %>
+	<a href="/user/show?id=<%= u.id %>"><%= u.login %></a><br/>
+<% end %>
+
+
 <!-- 
 
 Si utilisateur inscrit
