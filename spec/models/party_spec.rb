@@ -23,54 +23,47 @@ RSpec.describe Party, :type => :model do
     expect(found.description).to eq("c'est une description")
   end
 
-  it "requires login, email and password" do
-    user = Party.new
-    expect(user.valid?).to eq(false)
+  it "can't save a wrong user_id" do
+    user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails")
+    user.save!
 
-    user.login = "emoc11"
-    expect(user.valid?).to eq(false)
+    party = Party.create(user: user, name: "Une partie trop cool", date: "2014-04-11", begin_hour: 18, artist: "Moi", price: 10, adress: "3 rue d'Estienne d'Orves 94110 Arcueil")
+    party.save!
 
-    user.email = "emoc11@free.fr"
-    expect(user.valid?).to eq(false)
-
-    user.password = "rubyonrails"
-    expect(user.valid?).to eq(true)
+    expect(party.valid?).to eq(true)
+    party.user = nil
+    expect(party.valid?).to eq(false)
   end
 
-  it "requires a valid email format" do
-    user = Party.new(login: "emoc11", password: "rubyonrails")
-    expect(user.valid?).to eq(false)
+  it "requires user, name, date, hour, artist, price and adresse" do
+    user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails")
+    user.save!
 
-    user.email = "emoc11"
-    expect(user.valid?).to eq(false)
+    party = Party.new
+    expect(party.valid?).to eq(false)
 
-    user.email = "emoc11@free."
-    expect(user.valid?).to eq(false)
+    party.user = user
+    expect(party.valid?).to eq(false)
 
-    user.email = "emoc11@.fr"
-    expect(user.valid?).to eq(false)
+    party.name = "une partie trop cool !"
+    expect(party.valid?).to eq(false)
 
-    user.email = "@free.fr"
-    expect(user.valid?).to eq(false)
+    party.date = "2014-04-11"
+    expect(party.valid?).to eq(false)
 
-    user.email = "emoc11@free.fr"
-    expect(user.valid?).to eq(true)
-  end
+    party.begin_hour = 18
+    expect(party.valid?).to eq(false)
 
-  it "is impossible to add the same email/login twice" do
-    user = Party.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails")
-    expect(user.valid?).to eq(true)
+    party.artist = "Moi le plus grand"
+    expect(party.valid?).to eq(false)
 
-    other_user = Party.create(login: "emoc", email: "emoc11@free.fr", password: "rubyonrails")
-    expect(other_user.valid?).to eq(false)
+    party.price = 12
+    expect(party.valid?).to eq(false)
 
-    other_user = Party.create(login: "emoc11", email: "emoc11@hotmail.fr", password: "rubyonrails")
-    expect(other_user.valid?).to eq(false)
+    party.adress = "3 rue là où tu veux"
+    expect(party.valid?).to eq(true)
 
-    other_user = Party.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails")
-    expect(other_user.valid?).to eq(false)
-
-    other_user = Party.create(login: "emoc", email: "emoc11@hotmail.fr", password: "rubyonrails")
-    expect(other_user.valid?).to eq(true)
+    party.description = "Une petite description"
+    expect(party.valid?).to eq(true)
   end
 end
