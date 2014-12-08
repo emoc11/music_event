@@ -1,11 +1,15 @@
 class PartiesController < ApplicationController
 
+  def initialize 
+    @user_id = 1
+  end 
+
   def index
     # On récupère toutes les soirées
   	@parties = Party.all
 
     # On récupère les id des soirées auxquelles le user est inscrit
-  	userParties = PartyUser.where(user_id: 1)
+  	userParties = PartyUser.where(user_id: @user_id)
     
     @myParties = Array.new
     number=0
@@ -30,15 +34,13 @@ class PartiesController < ApplicationController
     i=0
 
   	partyUsers.each do |p|
-      # On récupère les utilisateurs, autre que celui connecté, pour les afficher
-      if(p.user_id != 1)
-  		  @users[i] = User.find(p.user_id)
-  		  i += 1
-      end
+      # On récupère les utilisateurs pour les afficher
+		  @users[i] = User.find(p.user_id)
+		  i += 1
   	end
 
     # On regarde si l'utilisateur est inscrit ou non
-    @inscription = PartyUser.where(user_id: 1, party_id: params[:id])
+    @inscription = PartyUser.where(user_id: @user_id, party_id: params[:id])
 
   	# render status: 404 unless @party != nil
 
@@ -47,16 +49,15 @@ class PartiesController < ApplicationController
   def suscribe
 
     # on enregistre l'inscription du user à la soirée 
-    @partyuser = PartyUser.new(params.require(:partyuser).permit(:user_id, :party_id))
+    @inscription = PartyUser.new(params.require(:partyuser).permit(:user_id, :party_id))
 
-    # if @partyuser.save
-    #   flash[:success] = "Vous êtes bien inscrit à l'événement"
-    # else
-    #   flash[:error] = "Une erreur a empêché l'inscription à l'événement"
-    # end
+    if @inscription.save
+      redirect_to :controller => 'parties', :action => 'show', :id => params[:partyuser][:party_id]
+    else
+      render status: 404
+    end
 
     # redirection sur la page de la soirée
-    redirect_to :controller => 'parties', :action => 'show', :id => params[:partyuser][:party_id]
   end
 
   def unsuscribe 

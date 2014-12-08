@@ -8,17 +8,8 @@
 	<a href="/user/show?id=<%= u.id %>"><%= u.login %></a><br/>
 <% end %>
 
-
-<!-- 
-
-Si utilisateur inscrit
-	Afficher bouton désinscription 
-Sinon 
-... -->
-
-<!-- Ajouter formulaire pour inscription + récupérer user_id + party_id -->
 <br/>
-<% if @inscription.empty? %>
+<% if @inscription %>
 	<%= form_for :partyuser, url: {action: "suscribe"} do |f| %>
 		<%= f.hidden_field :user_id, :value => 1 %>
 		<%= f.hidden_field :party_id, :value => params[:id] %>
