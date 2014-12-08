@@ -11,13 +11,13 @@
 <br/>
 <% if @inscription.blank? %>
 	<%= form_for :partyuser, url: {action: "suscribe"} do |f| %>
-		<%= f.hidden_field :user_id, :value => 1 %>
+		<%= f.hidden_field :user_id, :value => @user_id %>
 		<%= f.hidden_field :party_id, :value => params[:id] %>
 		<%= f.submit "Participer" %>
 	<% end %>
 <% else %>
 	<%= form_for :unsuscribe, url: {action: "unsuscribe"} do |f| %>
-		<%= f.hidden_field :user_id, :value => 1 %>
+		<%= f.hidden_field :user_id, :value => @user_id %>
 		<%= f.hidden_field :party_id, :value => params[:id] %>
 		<%= f.submit "Désinscription" %>
 	<% end %>
