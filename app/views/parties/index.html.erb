@@ -4,7 +4,7 @@
 	<p> Vous n'êtes inscrit à aucun événement !</p>
 <% else %>
 	<% @myParties.each do |party| %>
-		<a href="/parties/show?id=<%= party.id %>"><%= party.name %></a><br/>
+		<a href="/parties/<%= party.id %>"><%= party.name %></a><br/>
 		<%= party.description %><br/>
 		<hr>
 	<% end %>
@@ -13,7 +13,7 @@
 <h1>Toutes les soirées</h1>
 
 <% @parties.each do |party| %>
-	<a href="/parties/show?id=<%= party.id %>"><%= party.name %></a><br/>
+	<a href="/parties/<%= party.id %>"><%= party.name %></a><br/>
 	<%= party.description %><br/>
 	<hr>
 <% end %>
