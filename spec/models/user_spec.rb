@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe User, :type => :model do
 
   it "can save a user" do
-    user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails")
+    user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails", password_verif: "rubyonrails")
     user.save!
 
     found = User.last
@@ -27,7 +27,7 @@ RSpec.describe User, :type => :model do
   end
 
   it "requires a valid email format" do
-    user = User.new(login: "emoc11", password: "rubyonrails")
+    user = User.new(login: "emoc11", password: "rubyonrails", password_verif: "rubyonrails")
     expect(user.valid?).to eq(false)
 
     user.email = "emoc11"
@@ -47,19 +47,19 @@ RSpec.describe User, :type => :model do
   end
 
   it "is impossible to add the same email/login twice" do
-    user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails")
+    user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails", password_verif: "rubyonrails")
     expect(user.valid?).to eq(true)
 
-    other_user = User.create(login: "emoc", email: "emoc11@free.fr", password: "rubyonrails")
+    other_user = User.create(login: "emoc", email: "emoc11@free.fr", password: "rubyonrails", password_verif: "rubyonrails")
     expect(other_user.valid?).to eq(false)
 
-    other_user = User.create(login: "emoc11", email: "emoc11@hotmail.fr", password: "rubyonrails")
+    other_user = User.create(login: "emoc11", email: "emoc11@hotmail.fr", password: "rubyonrails", password_verif: "rubyonrails")
     expect(other_user.valid?).to eq(false)
 
-    other_user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails")
+    other_user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails", password_verif: "rubyonrails")
     expect(other_user.valid?).to eq(false)
 
-    other_user = User.create(login: "emoc", email: "emoc11@hotmail.fr", password: "rubyonrails")
+    other_user = User.create(login: "emoc", email: "emoc11@hotmail.fr", password: "rubyonrails", password_verif: "rubyonrails")
     expect(other_user.valid?).to eq(true)
   end
 end
