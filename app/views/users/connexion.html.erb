@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+
+<title>Music Events</title>
+<META charset="UTF-8">
+<META name="keywords" lang="fr" content="">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+<% @page_title = "Sign In" -%>
+<div class= "signIn">
+  <h1>Sign In</h1>
+  <%= form_tag(:action => 'connexion_attempt') do <%>
+  	<aqq>ap'a</aqq>
+  </%>
+
+    <p>
+      Username or Email:</br> <%= text_field_tag(:login_or_email) %>
+    </p>
+    <p>      
+      Password:</br> <%= password_field_tag :connexion_password %>
+    </p>
+	<div class="submit2">
+    <%= submit_tag("Log In") %>
+    </div>
+  <% end %>
+  <div class="message">
+    Not yet on Music Event ? <a href="signup">Sign Up !</a>
+  </div>
+</div>
+</body>

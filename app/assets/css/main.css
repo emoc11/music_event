@@ -47,5 +47,59 @@ table {
   background: #F99462;
   color: #fff; }
 
-body {
-  background-color: red; }
+body .signUp {
+  position: relative;
+  top: 50px;
+  margin-top: 50px;
+  width: 400px;
+  margin: auto; }
+  body .signUp input {
+    width: 400px;
+    height: 30px;
+    font-size: 22px; }
+  body .signUp p {
+    padding-bottom: 10px; }
+  body .signUp .submit {
+    width: 100px;
+    height: 50px; }
+  body .signUp h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+    padding-top: 10px;
+    padding-bottom: 20px; }
+  body .signUp .signUpErrors {
+    width: 400px;
+    color: red; }
+    body .signUp .signUpErrors li {
+      height: 20px; }
+body .signIn {
+  position: relative;
+  top: 50px;
+  margin-top: 50px;
+  width: 400px;
+  margin: auto; }
+  body .signIn input {
+    width: 400px;
+    height: 30px;
+    font-size: 22px; }
+  body .signIn p {
+    padding-bottom: 10px; }
+  body .signIn .submit {
+    width: 100px;
+    height: 50px; }
+  body .signIn h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+    padding-top: 10px;
+    padding-bottom: 20px; }
+  body .signIn .signInErrors {
+    width: 400px;
+    color: red; }
+    body .signIn .signInErrors li {
+      height: 20px; }
+  body .signIn .message {
+    margin-top: 20px;
+    text-align: center;
+    color: #333; }
+    body .signIn .message a {
+      color: #333; }

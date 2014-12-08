@@ -1,5 +1,14 @@
-<% @page_title = "UserAuth | Signup" -%>
-<div class= "Sign_Form">
+<!DOCTYPE html>
+<head>
+
+<title>Music Events</title>
+<META charset="UTF-8">
+<META name="keywords" lang="fr" content="">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+<% @page_title = "Sign up" -%>
+<div class= "signUp">
   <h1>Sign Up</h1>
   <%= form_for(:user, :url => {:controller => 'users', :action => 'create'}) do |f| %>
 
@@ -18,15 +27,17 @@
     <p>     
       Password Confirmation:</br> <%= f.password_field :password_confirmation%>
     </p>
-
+	<div class="submit">
     <%= f.submit :Signup %>
+    </div>
   <% end %>
 
   <% if @user.errors.any? %>
-	<ul class="Signup_Errors">
+	<ul class="signUpErrors">
 		<% for message_error in @user.errors.full_messages %>
 			<li>* <%= message_error %></li>
 	  	<% end %>
 	</ul>
   <% end %>
 </div>
+</body>

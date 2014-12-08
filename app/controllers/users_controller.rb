@@ -28,4 +28,10 @@ class UsersController < ApplicationController
     @userid = params[:id]
     @user = User.find(@userid)
   end
+
+  def connexion
+  end
+  def test
+
+  end
 end

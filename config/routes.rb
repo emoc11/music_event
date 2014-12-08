@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
 
-  root "users#new"
+  root "users#connexion"
 
   post 'parties/suscribe'
 
   post 'parties/unsuscribe'
+
+  get 'signup'  => 'users#new'
+  get 'SignIn'  => 'users#new'
+
+
 
   # toutes les routes pour users
   resources :users
