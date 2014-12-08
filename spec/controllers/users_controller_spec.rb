@@ -8,7 +8,7 @@ RSpec.describe UsersController, :type => :controller do
     it "/users/ exist with a title" do
       get :index
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("<h1>")
+      expect(response.body).to include("Tous les utilisateurs")
     end
 
     it "doesn't displays a list of users if there are no users" do
