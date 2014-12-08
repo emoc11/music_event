@@ -2,13 +2,11 @@ Rails.application.routes.draw do
 
   root "users#new"
 
-  get 'parties/index'
+  # toutes les routes pour users
+  resources :users
 
-  get 'parties/show'
-
-  get 'parties/new'
-
-  get 'users/index'
+  # toutes les routes pour parties
+  resources :parties
 
 
 
@@ -26,8 +24,6 @@ Rails.application.routes.draw do
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
-    resources :users
-    resources :parties
 
   # Example resource route with options:
   #   resources :products do
