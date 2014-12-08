@@ -11,7 +11,16 @@ RSpec.describe UsersController, :type => :controller do
       expect(response.body).to include("Tous les utilisateurs")
     end
 
-    it "doesn't displays a list of users if there are no users" do
+    it "/users/ displays a list of users" do
+      User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails", password_confirmation: "rubyonrails")
+      User.create(login: "test", email: "test@free.fr", password: "rubyruby", password_confirmation: "rubyruby")
+      get :index
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("emoc11")
+      expect(response.body).to include("test")
+    end
+
+    it "doesn't displays a list if there is no user" do
       User.delete_all
       get :index
       expect(response).to have_http_status(:success)
@@ -19,20 +28,12 @@ RSpec.describe UsersController, :type => :controller do
       expect(response.body).to_not include("Benson")
     end
 
-    it "/users/ displays a list of users" do
-      User.create(login: "Eileen", email: "Eileen@rs.com", password: "test")
-      User.create(login: "Benson", email: "benson@rs.com", password: "test")
-      get :index
-      expect(response).to have_http_status(:success)
-      expect(response.body).to include("Eileen")
-      expect(response.body).to include("Benson")
-    end
-
     it "/users/id show information about the user" do
-      user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyruby")
-      get :id
+      user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyruby", password_confirmation: "rubyruby")
+      get :show, :id => user.id
       expect(response).to have_http_status(:success)
       expect(response.body).to include("emoc11")
+      expect(response.body).to include("emoc11@free.fr")
 
     end
   end

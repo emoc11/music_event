@@ -25,6 +25,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    puts params
+    @userid = params[:id]
+    @user = User.find(@userid)
   end
 end
