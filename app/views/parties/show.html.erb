@@ -17,5 +17,17 @@ Sinon
 ... -->
 
 <!-- Ajouter formulaire pour inscription + récupérer user_id + party_id -->
-
-<button href="./parties/suscribe">S'inscrire</button>
+<br/>
+<% if @inscription.empty? %>
+	<%= form_for :partyuser, url: {action: "suscribe"} do |f| %>
+		<%= f.hidden_field :user_id, :value => 1 %>
+		<%= f.hidden_field :party_id, :value => params[:id] %>
+		<%= f.submit "Participer" %>
+	<% end %>
+<% else %>
+	<%= form_for :unsuscribe, url: {action: "unsuscribe"} do |f| %>
+		<%= f.hidden_field :user_id, :value => 1 %>
+		<%= f.hidden_field :party_id, :value => params[:id] %>
+		<%= f.submit "Désinscription" %>
+	<% end %>
+<% end %>

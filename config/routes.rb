@@ -8,8 +8,11 @@ Rails.application.routes.draw do
 
   get 'parties/new'
 
-  get 'users/index'
+  post 'parties/suscribe'
 
+  post 'parties/unsuscribe'
+
+  get 'users/index'
 
 
 
