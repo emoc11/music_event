@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     render "new"
   end
 
-  private
+  #private # fait planter toutes les méthodes suivantes, est-ce utilisé ??
 
   def user_params
     params.require(:user).permit(:login, :email, :password, :salt, :password_verif)

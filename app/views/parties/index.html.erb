@@ -1,11 +1,3 @@
-<h1>Toutes les soirées</h1>
-
-<% @parties.each do |party| %>
-	<a href="/parties/show?id=<%= party.id %>"><%= party.name %></a><br/>
-	<%= party.description %><br/>
-	<hr>
-<% end %>
-
 <h1>Mes soirées</h1>
 
 <% if @myParties.empty? %>
@@ -16,4 +8,12 @@
 		<%= party.description %><br/>
 		<hr>
 	<% end %>
+<% end %>
+
+<h1>Toutes les soirées</h1>
+
+<% @parties.each do |party| %>
+	<a href="/parties/show?id=<%= party.id %>"><%= party.name %></a><br/>
+	<%= party.description %><br/>
+	<hr>
 <% end %>
