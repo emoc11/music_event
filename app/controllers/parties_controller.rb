@@ -1,7 +1,7 @@
 class PartiesController < ApplicationController
 
   before_action do
-   @user_id = 2
+   @user_id = 3
   end
 
   def index
@@ -27,6 +27,9 @@ class PartiesController < ApplicationController
   def show
     # On récupère les informations sur la soirée
   	@party = Party.find(params[:id])
+
+    # Les informations sur le créateur de la soirée
+    @creator = User.find(@party.user_id)
 
     # On récupère les id des utilisateurs qui participent à la soirée
   	party_users = PartyUser.where(party_id: params[:id])
@@ -76,15 +79,21 @@ class PartiesController < ApplicationController
     redirect_to :controller => 'parties', :action => 'show', :id => params[:unsuscribe][:party_id]
   end
 
-  def new
-  end
   def create
-    params[:party][:user_id] = 2
+    params[:party][:user_id] = 3
     @party = Party.new(params.require(:party).permit(:user_id,:name, :date, :begin_hour, :artist, :price, :adress, :description))
       if @party.save
         redirect_to :controller => 'parties', :action => 'show', :id => @party.id
       else
 
       end
+  end
+
+  def destroy
+    # On supprime la soirée
+    Party.find(params[:id]).destroy
+    # On supprime les inscriptions qui lui étaient liées
+    PartyUser.destroy_all(:party_id => params[:id])
+    redirect_to parties_path
   end
 end
