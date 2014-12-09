@@ -7,11 +7,11 @@ describe "The signup process", :type => :feature do
 
   it "Signs me up" do
     visit '/signup'
-      fill_in "login", :with => 'emoc11'
-      fill_in "email", :with => 'emoc11@free.fr'
-      fill_in "password", :with => 'rubyonrails'
-      fill_in "password_verif", :with => 'rubyonrails'
+      fill_in "Login", :with => 'emoc11'
+      fill_in "Email", :with => 'emoc11@free.fr'
+      fill_in "Password", :with => 'rubyonrails'
+      fill_in "Confirmation", :with => 'rubyonrails'
       click_button "Create my account"
-    expect(page).to have_content 'Success'
+    expect(page).to have_content "emoc11"
   end
 end
