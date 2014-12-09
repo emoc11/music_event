@@ -28,14 +28,14 @@ Il peut s'inscrire ou se désinscrire la soirée  -->
 		<%= form_for :partyuser, url: {action: "suscribe"} do |f| %>
 			<%= f.hidden_field :user_id, :value => @user_id %>
 			<%= f.hidden_field :party_id, :value => params[:id] %>
-			<%= f.submit "Participer" %>
+			<%= f.submit "Suscribe" %>
 		<% end %>
 	<!-- Utilisateur inscrit -->
 	<% else %>
 		<%= form_for :unsuscribe, url: {action: "unsuscribe"} do |f| %>
 			<%= f.hidden_field :user_id, :value => @user_id %>
 			<%= f.hidden_field :party_id, :value => params[:id] %>
-			<%= f.submit "Désinscription" %>
+			<%= f.submit "Unsuscribe" %>
 		<% end %>
 	<% end %>
 <!-- Cas 2 : l'utilisateur connecté est le créateur de la soirée

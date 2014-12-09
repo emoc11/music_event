@@ -1,7 +1,12 @@
 <h1>All events</h1>
 <br/>
-<% @parties.each do |party| %>
-	<a href="/parties/<%= party.id %>"><%= party.name %></a><br/>
+<% @parties.each_with_index do |party, index| %>
+	<a href="/parties/<%= party.id %>"><h2><%= party.name %></h2></a><br/>
+	Date : <%= party.date %><br/>
+	At : <%= party.adress %><br/>
 	<%= party.description %><br/>
+	<% @suscribers_by_party[index].each do |suscriber| %>
+		<a href="/users/<%= suscriber.id %>"><%= suscriber.login %></a> - 
+	<% end %>
 	<hr>
 <% end %>
