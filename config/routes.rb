@@ -5,12 +5,6 @@ Rails.application.routes.draw do
   post 'parties/suscribe'
   post 'parties/unsuscribe'
 
-  # get 'signup'  => 'users#new'
-  # get 'SignIn'  => 'users#new'
-
- 
-
-
   get '/signup',  :to => 'users#new'
   get '/signin',  :to => 'session#new'
   get '/session',  :to => 'session#create'

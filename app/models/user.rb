@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   has_many :party_users
   has_many :parties, :through => :party_users
-  has_secure_password
 
   validates :login, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
   validates :email, :presence => true, :uniqueness => true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
