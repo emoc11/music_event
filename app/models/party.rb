@@ -1,5 +1,6 @@
 class Party < ActiveRecord::Base
-  belongs_to :user
+  has_many :party_users
+  has_many :users, :through => :party_users
 
   validates :user_id, presence: true
   validates :name, presence: true

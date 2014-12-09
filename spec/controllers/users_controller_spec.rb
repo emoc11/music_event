@@ -36,6 +36,16 @@ RSpec.describe UsersController, :type => :controller do
       expect(response.body).to include("emoc11@free.fr")
 
     end
+
+    it "is safe from XSS" do
+      user = User.create(login: "emoc", email: "bla@free.fr", password: "rubyruby", password_confirmation: "rubyruby")
+      get :show, :id => user.id
+      @user.name = "<script>alert('blablah')</script>"
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("emoc11")
+      expect(response.body).to include("emoc11@free.fr")
+
+    end
   end
 
 end
