@@ -1,0 +1,7 @@
+<h1>All events</h1>
+<br/>
+<% @parties.each do |party| %>
+	<a href="/parties/<%= party.id %>"><%= party.name %></a><br/>
+	<%= party.description %><br/>
+	<hr>
+<% end %>
