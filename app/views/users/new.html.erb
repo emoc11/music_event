@@ -10,34 +10,30 @@
 <% @page_title = "Sign up" -%>
 <div class= "signUp">
   <h1>Sign Up</h1>
-  <%= form_for(:user, :url => {:controller => 'users', :action => 'create'}) do |f| %>
-
-    <p>          
-      Username:</br> <%= f.text_field :login%>
-    </p>
-
+  <%= form_for @user do |f| %>
+    <% if @user.errors.any? %>
+      <div class="error_messages">
+        <h2>Form is invalid</h2>
+        <ul>
+          <% for message in @user.errors.full_messages %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
     <p>
-      Email:</br> <%= f.text_field :email%>
+      <%= f.label :email %><br />
+      <%= f.text_field :email %>
     </p>
-
-    <p>      
-      Password:</br> <%= f.password_field :password%>
+    <p>
+      <%= f.label :password %><br />
+      <%= f.password_field :password %>
     </p>
-
-    <p>     
-      Password Confirmation:</br> <%= f.password_field :password_confirmation%>
+    <p>
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation %>
     </p>
-	<div class="submit">
-    <%= f.submit :Signup %>
-    </div>
-  <% end %>
-
-  <% if @user.errors.any? %>
-	<ul class="signUpErrors">
-		<% for message_error in @user.errors.full_messages %>
-			<li>* <%= message_error %></li>
-	  	<% end %>
-	</ul>
+    <p class="button"><%= f.submit %></p>
   <% end %>
 </div>
 </body>

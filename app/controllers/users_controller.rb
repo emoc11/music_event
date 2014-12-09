@@ -1,37 +1,14 @@
 class UsersController < ApplicationController  
   def new
-    @user = User.new 
+    @user = User.new
   end
+
   def create
-    @user = User.new(user_params)
+    @user = User.new(params[:user])
     if @user.save
-      flash[:notice] = "You signed up successfully"
-      flash[:color]= "valid"
+      redirect_to root_url, :notice => "Signed up!"
     else
-      flash[:notice] = "Form is invalid"
-      flash[:color]= "invalid"
+      render "new"
     end
-    render "new"
-  end
-
-  #private # fait planter toutes les méthodes suivantes, est-ce utilisé ??
-
-  def user_params
-    params.require(:user).permit(:login, :email, :password, :salt, :password_verif)
-  end
-
-  def index
-    @users = User.all
-  end
-
-  def show
-    @userid = params[:id]
-    @user = User.find(@userid)
-  end
-
-  def connexion
-  end
-  def test
-
   end
 end
