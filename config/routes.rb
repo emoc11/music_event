@@ -1,19 +1,20 @@
 Rails.application.routes.draw do
 
-
+  get 'sessions/new'
   get 'parties/all'
   post 'parties/suscribe'
   post 'parties/unsuscribe'
 
-get "log_out" => "sessions#destroy", :as => "log_out"
-get "log_in" => "sessions#new", :as => "log_in"
-get "sign_up" => "users#new", :as => "sign_up"
-root :to => "users#new"
-resources :users
-resources :sessions
+get 'signup'  => 'users#new'
+get    'login'   => 'sessions#new'
+post   'login'   => 'sessions#create'
+delete 'logout'  => 'sessions#destroy'
 
+root "sessions#new"
   # toutes les routes pour users
   resources :parties
+  resources :users
+  resources :sessions
 
 
 
