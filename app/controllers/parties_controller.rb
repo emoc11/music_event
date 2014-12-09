@@ -1,8 +1,8 @@
 class PartiesController < ApplicationController
 
-  def initialize 
-    @user_id = 1
-  end 
+  before_action do
+   @user_id = 1
+  end
 
   def index
     # On récupère toutes les soirées
@@ -10,7 +10,7 @@ class PartiesController < ApplicationController
 
     # On récupère les id des soirées auxquelles le user est inscrit
   	userParties = PartyUser.where(user_id: @user_id)
-    
+
     @myParties = Array.new
     number=0
 
@@ -28,7 +28,7 @@ class PartiesController < ApplicationController
 
   	@users = Array.new
 
-    # On récupère les id des utilisateurs qui participent à la soirée 
+    # On récupère les id des utilisateurs qui participent à la soirée
   	partyUsers = PartyUser.where(party_id: params[:id])
 
     i=0
@@ -44,11 +44,11 @@ class PartiesController < ApplicationController
 
   	# render status: 404 unless @party != nil
 
-  end 
+  end
 
   def suscribe
 
-    # on enregistre l'inscription du user à la soirée 
+    # on enregistre l'inscription du user à la soirée
     @inscription = PartyUser.new(params.require(:partyuser).permit(:user_id, :party_id))
 
     if @inscription.save
@@ -60,9 +60,9 @@ class PartiesController < ApplicationController
     # redirection sur la page de la soirée
   end
 
-  def unsuscribe 
+  def unsuscribe
 
-    # on supprime l'inscription du user à la soirée 
+    # on supprime l'inscription du user à la soirée
     PartyUser.where(user_id: params[:unsuscribe][:user_id]).where(party_id: params[:unsuscribe][:party_id]).destroy_all
 
     # redirection sur la page de la soirée
@@ -70,5 +70,14 @@ class PartiesController < ApplicationController
   end
 
   def new
+  end
+  def create
+    params[:party][:user_id] = 2
+    @party = Party.new(params.require(:party).permit(:user_id,:name, :date, :begin_hour, :artist, :price, :adress, :description))
+      if @party.save
+        redirect_to :controller => 'parties', :action => 'show', :id => @party.id
+      else
+
+      end
   end
 end

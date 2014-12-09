@@ -42,5 +42,9 @@ gem 'spring',        group: :development
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
+# test unitaires RSPEC
 gem 'rspec'
 gem 'rspec-rails', '~> 3.0'
+
+# test des formulaires CAPYBARA
+gem 'capybara'
