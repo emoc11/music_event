@@ -71,4 +71,13 @@ class PartiesController < ApplicationController
 
   def new
   end
+  def create
+    params[:party][:user_id] = 2
+    @party = Party.new(params.require(:party).permit(:user_id,:name, :date, :begin_hour, :artist, :price, :adress, :description))
+      if @party.save
+        redirect_to :controller => 'parties', :action => 'show', :id => @party.id
+      else
+        
+      end
+  end
 end
