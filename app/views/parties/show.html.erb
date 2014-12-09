@@ -1,4 +1,10 @@
-<h1><%= @party.name %></h1>
+<h1><%= @party.name %> - Hosted by 
+	<% if @creator.id == @user_id %>
+		<a href="/users/<%= @user_id %>">you</a>
+	<% else %>
+		<a href="/users/<%= @creator.id %>"><%= @creator.login %></a>
+	<% end %>
+</h1>
 <br/>
 
 <p>Description :<br/><%= @party.description %></p>
@@ -7,25 +13,33 @@
 
 <h2>Suscribers :</h2>
 
-<% if @suscribers.blank? %>
-	No suscribers yet ! 
-<% else %>
-	<% @suscribers.each do |s| %>
-		<a href="/users/<%= s.id %>"><%= s.login %></a><br/>
-	<% end %>
+<a href="/users/<%= @creator.id %>"><%= @creator.login %></a>
+<% @suscribers.each do |s| %>
+	<a href="/users/<%= s.id %>"><%= s.login %></a><br/>
 <% end %>
 
-<br/>
-<% if @inscription.blank? %>
-	<%= form_for :partyuser, url: {action: "suscribe"} do |f| %>
-		<%= f.hidden_field :user_id, :value => @user_id %>
-		<%= f.hidden_field :party_id, :value => params[:id] %>
-		<%= f.submit "Participer" %>
+<br/><br/>
+
+<!-- Cas 1 : l'utilisateur connecté n'est pas le créateur de la soirée
+Il peut s'inscrire ou se désinscrire la soirée  -->
+<% if @creator.id != @user_id %>
+	<!-- Utilisateur non inscrit -->
+	<% if @inscription.blank? %>
+		<%= form_for :partyuser, url: {action: "suscribe"} do |f| %>
+			<%= f.hidden_field :user_id, :value => @user_id %>
+			<%= f.hidden_field :party_id, :value => params[:id] %>
+			<%= f.submit "Participer" %>
+		<% end %>
+	<!-- Utilisateur inscrit -->
+	<% else %>
+		<%= form_for :unsuscribe, url: {action: "unsuscribe"} do |f| %>
+			<%= f.hidden_field :user_id, :value => @user_id %>
+			<%= f.hidden_field :party_id, :value => params[:id] %>
+			<%= f.submit "Désinscription" %>
+		<% end %>
 	<% end %>
+<!-- Cas 2 : l'utilisateur connecté est le créateur de la soirée
+Il peut supprimer la soirée  -->
 <% else %>
-	<%= form_for :unsuscribe, url: {action: "unsuscribe"} do |f| %>
-		<%= f.hidden_field :user_id, :value => @user_id %>
-		<%= f.hidden_field :party_id, :value => params[:id] %>
-		<%= f.submit "Désinscription" %>
-	<% end %>
+	<%= button_to "Cancel my party", @party, :method => :delete %>
 <% end %>

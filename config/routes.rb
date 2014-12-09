@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   post 'parties/suscribe'
   post 'parties/unsuscribe'
 
-get 'signup'  => 'users#new'
-get    'login'   => 'sessions#new'
-post   'login'   => 'sessions#create'
-delete 'logout'  => 'sessions#destroy'
+  get 'signup'  => 'users#new'
+  get    'login'   => 'sessions#new'
+  post   'login'   => 'sessions#create'
+  delete 'logout'  => 'sessions#destroy'
 
 root "sessions#new"
   # toutes les routes pour users
