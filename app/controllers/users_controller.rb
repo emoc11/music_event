@@ -30,7 +30,9 @@ class UsersController < ApplicationController
   end
 
   def connexion
+    
   end
+
   def test
 
   end
