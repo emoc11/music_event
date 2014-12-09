@@ -1,25 +1,27 @@
 class PartiesController < ApplicationController
 
   before_action do
-   @user_id = 1
+   @user_id = 2
   end
 
   def index
-    # On récupère toutes les soirées
-  	@parties = Party.all
+  	
+    # 1) Soirées créées par l'utilisateur
+    @created_parties = Party.where(user_id: @user_id)
+
+    # 2) Soirées auxquelles participent l'utilisateur
+    @suscribed_parties = Array.new
+    i=0
 
     # On récupère les id des soirées auxquelles le user est inscrit
-  	userParties = PartyUser.where(user_id: @user_id)
+    user_parties = PartyUser.where(user_id: @user_id)
 
-    @myParties = Array.new
-    number=0
+    # On récupère les soirées auxquelles est inscrit le user, autres que celles créées par lui
+    user_parties.each do |p|
+      @suscribed_parties[i] = Party.find(p.party_id)
+      i+= 1
+    end
 
-    # On récupère les soirées auxquelles est inscrit le user
-  	userParties.each do |p|
-      # A partir de la table Party
-  		@myParties[number] = Party.find(p.party_id)
-  		number += 1
-  	end
   end
 
   def show
@@ -29,11 +31,11 @@ class PartiesController < ApplicationController
   	@users = Array.new
 
     # On récupère les id des utilisateurs qui participent à la soirée
-  	partyUsers = PartyUser.where(party_id: params[:id])
+  	party_users = PartyUser.where(party_id: params[:id])
 
     i=0
 
-  	partyUsers.each do |p|
+  	party_users.each do |p|
       # On récupère les utilisateurs pour les afficher
 		  @users[i] = User.find(p.user_id)
 		  i += 1
@@ -44,6 +46,12 @@ class PartiesController < ApplicationController
 
   	# render status: 404 unless @party != nil
 
+  end
+
+  # Montrer toutes les soirées
+  def all
+    # On récupère toutes les soirées
+    @parties = Party.all
   end
 
   def suscribe

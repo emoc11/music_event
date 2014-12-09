@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  get 'parties/all'
   post 'parties/suscribe'
   post 'parties/unsuscribe'
 
@@ -10,8 +11,6 @@ get "sign_up" => "users#new", :as => "sign_up"
 root :to => "users#new"
 resources :users
 resources :sessions
-
-
 
   # toutes les routes pour users
   resources :parties
