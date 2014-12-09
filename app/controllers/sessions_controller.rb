@@ -4,12 +4,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(login: params[:session][:login])
-    attempted_password = params[:session][:password]
-    salt = "CeciEstDuTexteQuiPermetDeSecuriserLePassword"
-    sha1_password = Digest::SHA1.hexdigest("#{salt}#{attempted_password}")
-	BCrypt::Password.new(user.password_digest) == sha1_password
-    if user && user.authenticate(params[:session][:password])
+    user = User.find_by(login: params[:session][:login], password_digest: params[:session][:password])
+
+    if user
       log_in user
       redirect_to user
     else
