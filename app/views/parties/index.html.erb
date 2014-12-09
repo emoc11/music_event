@@ -1,7 +1,9 @@
-<h1>Mes soirées</h1>
+<% @page_title = "Home" -%>
+
+<h1>Your events</h1>
 
 <% if @myParties.empty? %>
-	<p> Vous n'êtes inscrit à aucun événement !</p>
+	<p> You didn't suscribe to any event !</p>
 <% else %>
 	<% @myParties.each do |party| %>
 		<a href="/parties/<%= party.id %>"><%= party.name %></a><br/>
@@ -10,7 +12,7 @@
 	<% end %>
 <% end %>
 
-<h1>Toutes les soirées</h1>
+<h1>All events</h1>
 
 <% @parties.each do |party| %>
 	<a href="/parties/<%= party.id %>"><%= party.name %></a><br/>
