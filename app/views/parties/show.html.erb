@@ -1,11 +1,18 @@
 <h1><%= @party.name %></h1>
+<br/>
 
-<p><%= @party.description %></p>
+<p>Description :<br/><%= @party.description %></p>
 
-<h2>Participants :</h2>
+<hr/>
 
-<% @users.each do |u| %>
-	<a href="/users/<%= u.id %>"><%= u.login %></a><br/>
+<h2>Suscribers :</h2>
+
+<% if @suscribers.blank? %>
+	No suscribers yet ! 
+<% else %>
+	<% @suscribers.each do |s| %>
+		<a href="/users/<%= s.id %>"><%= s.login %></a><br/>
+	<% end %>
 <% end %>
 
 <br/>

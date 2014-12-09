@@ -28,16 +28,15 @@ class PartiesController < ApplicationController
     # On récupère les informations sur la soirée
   	@party = Party.find(params[:id])
 
-  	@users = Array.new
-
     # On récupère les id des utilisateurs qui participent à la soirée
   	party_users = PartyUser.where(party_id: params[:id])
 
     i=0
-
+    @suscribers = Array.new
+    
   	party_users.each do |p|
       # On récupère les utilisateurs pour les afficher
-		  @users[i] = User.find(p.user_id)
+		  @suscribers[i] = User.find(p.user_id)
 		  i += 1
   	end
 
