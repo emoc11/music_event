@@ -1,19 +1,29 @@
-<h1>Mes soirées</h1>
-
-<% if @myParties.empty? %>
-	<p> Vous n'êtes inscrit à aucun événement !</p>
+<a href="/parties/new">Create a new party</a><br/>
+<a href="/parties/all">All the parties</a><br/>
+<a href="/signout">Sign out</a><br/>
+<br/>
+<h1>My created events</h1>
+<br/>
+<% if @created_parties.empty? %>
+	<p> You didn't create any event yet !</p>
 <% else %>
-	<% @myParties.each do |party| %>
-		<a href="/parties/<%= party.id %>"><%= party.name %></a><br/>
-		<%= party.description %><br/>
+	<% @created_parties.each do |c_party| %>
+		<a href="/parties/<%= c_party.id %>"><%= c_party.name %></a><br/>
+		<%= c_party.description %><br/>
+		<hr>
+	<% end %>
+<% end %>
+<br/><br/>
+
+<h1>My suscribed events</h1>
+<br/>
+<% if @suscribed_parties.empty? %>
+	<p> You didn't suscribe to any event ! See <a href="/parties/all">all the parties</a> !</p>
+<% else %>
+	<% @suscribed_parties.each do |s_party| %>
+		<a href="/parties/<%= s_party.id %>"><%= s_party.name %></a><br/>
+		<%= s_party.description %><br/>
 		<hr>
 	<% end %>
 <% end %>
 
-<h1>Toutes les soirées</h1>
-
-<% @parties.each do |party| %>
-	<a href="/parties/<%= party.id %>"><%= party.name %></a><br/>
-	<%= party.description %><br/>
-	<hr>
-<% end %>
