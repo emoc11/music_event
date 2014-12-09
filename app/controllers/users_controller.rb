@@ -24,11 +24,12 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:login, :email, :password, :password_digest)
-  end
-
-  def connexion
-    
+   
+    salt = "CeciEstDuTexteQuiPermetDeSecuriserLePassword"
+    real_password = params[:password]
+    sha1_password = Digest::SHA1.hexdigest("#{salt}#{real_password}")
+    params[:password_digest] = BCrypt::Password.create(sha1_password).to_s
+     params.require(:user).permit(:login, :email, :password, :password_digest)
   end
 
 end
