@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   # Validation des différents champs
-  validates :login, presence: true, length: { maximum: 50 }
+  validates :login, presence: true, length: { maximum: 50 }, uniqueness: true
   validates :password, length: { minimum: 6 }, presence: true, confirmation: true
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i }, uniqueness: true
 
