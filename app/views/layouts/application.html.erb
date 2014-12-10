@@ -2,28 +2,34 @@
 <html>
 <head>
   <title>MusicEvent</title>
-  <%= stylesheet_link_tag "main", 'application' %>
+  <%= stylesheet_link_tag "main", "bootstrap" %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <!-- design pour les message "flash", souvent retour de formulaires -->
-  <% flash.each do |message_type, message| %>
-    <div class="alert alert-<%= message_type %>"><%= message %></div>
-  <% end %>
-
-  <!-- Verification connecté/deconnecté et affichage en fonction -->
-  <% if current_user.blank?  # Si utilisateur non connecté %>
-    <%= button_to "Connect", {:controller=>"sessions", :action=>"new"}, :method => :get %>
-  <% else %>
-    <h3>Logged in as : <%= current_user.login %></h3>
-    <%= button_to "Edit", {:controller=>"users", :action=>"edit", :id => current_user.id}, :method => :get %>
-    <%= button_to "Disconnect", {:controller=>"sessions", :action=>"destroy"}, :method => :delete %>
-  <% end %>
+      <!-- Verification connecté/deconnecté et affichage en fonction -->
+      <% if current_user.blank?  # Si utilisateur non connecté %>
+        <%= button_to "Connect", {:controller=>"sessions", :action=>"new"}, :method => :get %>
+      <% else %>
+        <span class="navbar-brand">Logged in as : <%= current_user.login %></span>
+        <%= button_to "Home", {:controller=>"parties", :action=>"index"}, :method => :get %>
+        <%= button_to "Edit", {:controller=>"users", :action=>"edit"}, :method => :get %>
+        <%= button_to "Disconnect", {:controller=>"sessions", :action=>"destroy"}, :method => :delete %>
+      <% end %>
 
   <!-- Affichage des vues partielles -->
-  <%= yield %>
-
+  <div class="container">
+    <!-- design pour les message "flash", souvent retour de formulaires -->
+    <% if !flash.blank? %>
+      <div class="alert alert-warning">
+      <% flash.each do |message_type, message| %>
+        <%= message %>
+      <% end %>
+    </div>
+    <% end %>
+    
+    <%= yield %>
+  </div>
   <!-- Affichage de l'environnement de débug, à suppr avant prod -->
   <!-- <%= debug(params) if Rails.env.development? %> -->
 

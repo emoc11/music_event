@@ -1,15 +1,23 @@
-<h1>All events</h1>
-<br/>
-<!-- Liste des parties -->
-<% @parties.each_with_index do |party, index| %>
-	<a href="/parties/<%= party.id %>"><h2><%= party.name %></h2></a><br/>
-	Hosted by : <a href="/users/<%= @party_creator[index].id %>"><%= @party_creator[index].login %></a><br/>
-	Date : <%= party.date %><br/>
-	At : <%= party.adress %><br/>
-	<%= party.description %><br/>
-	<strong><%= @suscribers_by_party[index].size %></strong> people will participate !
-<!-- 	<% @suscribers_by_party[index].each do |suscriber| %>
-		<a href="/users/<%= suscriber.id %>"><%= suscriber.login %></a> - 
-	<% end %> -->
-	<hr>
-<% end %>
+<% provide(:title, "All events") %>
+
+<div class="row">
+	<div class="jumbotron col-md-12">
+		<h1>All events</h1>
+		<br/>
+		<!-- Liste des parties -->
+		<% @parties.each_with_index do |party, index| %>
+			<div class="col-lg-4">
+				<a href="/parties/<%= party.id %>"><h2><%= party.name %></h2></a><br/>
+				Hosted by : <a href="/users/<%= @party_creator[index].id %>"><%= @party_creator[index].login %></a><br/>
+				Date : <%= party.date %><br/>
+				At : <%= party.adress %><br/>
+				<%= party.description %><br/>
+				<strong><%= @suscribers_by_party[index].size %></strong> people will participate !
+			<!-- 	<% @suscribers_by_party[index].each do |suscriber| %>
+					<a href="/users/<%= suscriber.id %>"><%= suscriber.login %></a> - 
+				<% end %> -->
+				<hr>
+			</div>
+		<% end %>
+	</div>
+</div>

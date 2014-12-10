@@ -1,36 +1,39 @@
-<%= link_to "Create a new party", new_party_path %><br/>
-<a href="/parties/all">All the parties</a><br/>
-<a href="/signout">Sign out</a><br/>
-<br/>
+<div class="row">
+	<div class="jumbotron col-md-12">
+		<h1>Welcome !</h1>
+		<%= link_to "Create a new party", new_party_path, class: "btn btn-success"  %>
+		<a href="/parties/all" class="btn btn-info" >All the parties</a>
+		<a href="/signout" class="btn btn-warning" >Sign out</a>
+		<br/>
 
-  <!-- Events crées par l'utilisateur actif -->
-<h1>My created events</h1>
-<br/>
-<div class="createdEvent">
-<% if @created_parties.empty? %>
-	<p> You didn't create any event yet !</p>
-<% else %>
-	<% @created_parties.each do |c_party| %>
-		<a href="/parties/<%= c_party.id %>"><%= c_party.name %></a><br/>
-		<%= c_party.description %><br/>
-		<hr>
+	  <!-- Events crées par l'utilisateur actif -->
+	<h2>My created events</h2>
+	<br/>
+	<div class="createdEvent">
+	<% if @created_parties.empty? %>
+		<p> You didn't create any event yet !</p>
+	<% else %>
+		<% @created_parties.each do |c_party| %>
+			<a href="/parties/<%= c_party.id %>"><%= c_party.name %></a><br/>
+			<%= c_party.description %><br/>
+			<hr>
+		<% end %>
 	<% end %>
-<% end %>
-</div>
-<br/><br/>
+	</div>
+	<br/><br/>
 
-  <!-- Events auquel l'utilisateur s'est inscrit -->
-<h1>My subscribed events</h1>
-<br/>
-<div class="subscribedEvent">
-<% if @suscribed_parties.empty? %>
-	<p> You didn't suscribe to any event ! See <a href="/parties/all">all the parties</a> !</p>
-<% else %>
-	<% @suscribed_parties.each do |s_party| %>
-		<a href="/parties/<%= s_party.id %>"><%= s_party.name %></a><br/>
-		<%= s_party.description %><br/>
-		<hr>
+	  <!-- Events auquel l'utilisateur s'est inscrit -->
+	<h2>My subscribed events</h2>
+	<br/>
+	<div class="subscribedEvent">
+	<% if @suscribed_parties.empty? %>
+		<p> You didn't suscribe to any event ! See <a href="/parties/all">all the parties</a> !</p>
+	<% else %>
+		<% @suscribed_parties.each do |s_party| %>
+			<a href="/parties/<%= s_party.id %>"><%= s_party.name %></a><br/>
+			<%= s_party.description %><br/>
+			<hr>
+		<% end %>
 	<% end %>
-<% end %>
-</div>
+	</div>
 

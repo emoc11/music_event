@@ -1,47 +1,49 @@
+<div class="row">
+	<div class="jumbotron col-md-12">
+		<!-- Affichage des infos de l'event -->
+		<h1><%= @party.name %> - Hosted by 
+			<% if @creator.id == @user_id %>
+				<a href="/users/<%= @user_id %>">you</a>
+			<% else %>
+				<a href="/users/<%= @creator.id %>"><%= @creator.login %></a>
+			<% end %>
+		</h1>
+		<br/>
 
-  <!-- Affichage des infos de l'event -->
-<h1><%= @party.name %> - Hosted by 
-	<% if @creator.id == @user_id %>
-		<a href="/users/<%= @user_id %>">you</a>
-	<% else %>
-		<a href="/users/<%= @creator.id %>"><%= @creator.login %></a>
-	<% end %>
-</h1>
-<br/>
+		<p>Description : <%= @party.description %></p>
 
-<p>Description :<br/><%= @party.description %></p>
+		<hr/>
 
-<hr/>
+		<!-- Liste des utilisateurs inscrits à cet event -->
+		<h2>Suscribers :</h2>
 
-  <!-- Liste des utilisateurs inscrits à cet event -->
-<h2>Subscribers :</h2>
-
-<% @suscribers.each do |s| %>
-	<a href="/users/<%= s.id %>"><%= s.login %></a><br/>
-<% end %>
-
-<br/><br/>
-
-<!-- Cas 1 : l'utilisateur connecté n'est pas le créateur de la soirée
-Il peut s'inscrire ou se désinscrire la soirée  -->
-<% if @creator.id != @user_id %>
-	<!-- Utilisateur non inscrit -->
-	<% if @inscription.blank? %>
-		<%= form_for :partyuser, url: {action: "suscribe"} do |f| %>
-			<%= f.hidden_field :user_id, :value => @user_id %>
-			<%= f.hidden_field :party_id, :value => params[:id] %>
-			<%= f.submit "Suscribe" %>
+		<ul>
+		<% @suscribers.each do |s| %>
+			<li> <a href="/users/<%= s.id %>"><%= s.login %></a></li>
 		<% end %>
-	<!-- Utilisateur inscrit -->
-	<% else %>
-		<%= form_for :unsuscribe, url: {action: "unsuscribe"} do |f| %>
-			<%= f.hidden_field :user_id, :value => @user_id %>
-			<%= f.hidden_field :party_id, :value => params[:id] %>
-			<%= f.submit "Unsuscribe" %>
+		</ul>
+
+		<!-- Cas 1 : l'utilisateur connecté n'est pas le créateur de la soirée
+		Il peut s'inscrire ou se désinscrire la soirée  -->
+		<% if @creator.id != @user_id %>
+			<!-- Utilisateur non inscrit -->
+			<% if @inscription.blank? %>
+				<%= form_for :partyuser, url: {action: "suscribe"} do |f| %>
+					<%= f.hidden_field :user_id, :value => @user_id %>
+					<%= f.hidden_field :party_id, :value => params[:id] %>
+					<%= f.submit "Suscribe",  class: "btn btn-success" %>
+				<% end %>
+			<!-- Utilisateur inscrit -->
+			<% else %>
+ 				<%= form_for :unsuscribe, url: {action: "unsuscribe"} do |f| %>
+					<%= f.hidden_field :user_id, :value => @user_id %>
+					<%= f.hidden_field :party_id, :value => params[:id] %>
+					<%= f.submit "Unsuscribe",  class: "btn btn-danger" %>
+				<% end %>
+			<% end %>
+		<!-- Cas 2 : l'utilisateur connecté est le créateur de la soirée
+		Il peut supprimer la soirée  -->
+		<% else %>
+			<%= button_to "Cancel my party", @party, :method => :delete, class: "btn btn-danger" %>
 		<% end %>
-	<% end %>
-<!-- Cas 2 : l'utilisateur connecté est le créateur de la soirée
-Il peut supprimer la soirée  -->
-<% else %>
-	<%= button_to "Cancel my party", @party, :method => :delete %>
-<% end %>
+</div>
