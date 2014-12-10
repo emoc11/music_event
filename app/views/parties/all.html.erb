@@ -3,11 +3,13 @@
 <!-- Liste des parties -->
 <% @parties.each_with_index do |party, index| %>
 	<a href="/parties/<%= party.id %>"><h2><%= party.name %></h2></a><br/>
+	Hosted by : <a href="/users/<%= @party_creator[index].id %>"><%= @party_creator[index].login %></a><br/>
 	Date : <%= party.date %><br/>
 	At : <%= party.adress %><br/>
 	<%= party.description %><br/>
-	<% @suscribers_by_party[index].each do |suscriber| %>
+	<strong><%= @suscribers_by_party[index].size %></strong> people will participate !
+<!-- 	<% @suscribers_by_party[index].each do |suscriber| %>
 		<a href="/users/<%= suscriber.id %>"><%= suscriber.login %></a> - 
-	<% end %>
+	<% end %> -->
 	<hr>
 <% end %>
