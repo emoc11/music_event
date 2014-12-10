@@ -9,7 +9,6 @@ RSpec.describe User, :type => :model do
     found = User.last
     expect(found.login).to eq("emoc11")
     expect(found.email).to eq("emoc11@free.fr")
-    expect(found.password).to eq("rubyonrails")
   end
 
   it "requires login, email and password" do
