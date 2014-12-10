@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'modification/new'
+
   # Routes pour affichage complet des parties, inscription et desinscription à l'une d'elle
   get 'parties/all'
   post 'parties/suscribe'
