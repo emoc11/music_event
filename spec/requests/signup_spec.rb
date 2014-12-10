@@ -12,6 +12,6 @@ describe "The signup process", :type => :feature do
       fill_in "Password", :with => 'rubyonrails'
       fill_in "Confirmation", :with => 'rubyonrails'
       click_button "Create my account"
-    expect(page).to have_content "emoc11"
+    expect(page).to have_content "Signed up!"
   end
 end

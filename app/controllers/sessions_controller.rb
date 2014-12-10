@@ -9,12 +9,17 @@ class SessionsController < ApplicationController
 
   # Connexion d'un utilisateur
   def create
-    user = User.find_by_login(params[:session][:login]).authenticate(params[:session][:password])
-    if user
-      session[:user_id] = user.id
-      redirect_to user, :notice => "Welcome back, #{user.login} !"
+    if User.exists?(:login => params[:session][:login])
+      user = User.find_by_login(params[:session][:login]).authenticate(params[:session][:password])
+      if user
+        session[:user_id] = user.id
+        redirect_to user, :notice => "Welcome back, #{user.login} !"
+      else
+        flash.now.alert = "Invalid email or password"
+        render "new"
+      end
     else
-      flash.now.alert = "Invalid email or password ; test = #{params[:session][:password]}"
+      flash.now.alert = "Invalid email or password"
       render "new"
     end
   end
