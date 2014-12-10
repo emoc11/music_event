@@ -1,11 +1,23 @@
 <div class="row">
 	<div class="jumbotron col-md-12">
-		  <!-- Affichage des informations concernant un utilisateur -->
-		<h1>Profile of <%= @user.login %></h1>
-		<br/>
-		<div>
-		  <p> Email : <%= @user.email %></p>
-		  <!-- <p> Password : <%= @user.password_digest %></p>  -->
-		</div>
+		<!-- Affichage des informations concernant un utilisateur -->
+		<h2>Profile of <%= @user.login %> - Registered since <%= @user.created_at %> </h2>
+		<p> Email : <%= @user.email %></p>
+		<!-- Affichage des soirées qu'il a créées -->
+		<h2>Events of <%= @user.login %></h2>
+		<% if @created_parties.blank? %>
+			This user hasn't created any event yet !
+		<% else %>
+			<% @created_parties.each_with_index do |p, index| %>
+				<div class="col-md-3">
+					<h3><a href="parties/<%= p.id %>"><%= p.name %></a></h3>
+					<p>
+						<%= p.date %><br/>
+						<%= p.adress %><br/>
+						Number of suscribers : <%= @suscribers[index].size %><br/>
+					</p>
+				</div>
+			<% end %>
+		<% end %>
 	</div>
 </div>

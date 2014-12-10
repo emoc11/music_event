@@ -11,6 +11,20 @@ class UsersController < ApplicationController
     if User.exists?(:id => params[:id])
       isconnect?
       @user = User.find(params[:id])
+      # Soirées créées par l'utilisateur
+      @created_parties = Party.where(user_id: @user.id)
+
+      # On récupère les id des utilisateurs qui participent à la soirée
+      party_users = PartyUser.where(party_id: params[:id])
+
+      @suscribers = Array.new
+
+      party_users.each_with_index do |p, index|
+        @suscribers[index] = Array.new
+        # On récupère les utilisateurs pour les afficher
+        @suscribers[index] << User.find(p.user_id)
+      end
+
     else
       render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
     end
