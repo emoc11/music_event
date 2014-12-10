@@ -38,7 +38,7 @@ class PartiesController < ApplicationController
 
       party_users.each do |p|
       # On récupère les utilisateurs pour les afficher
-      @suscribers.push(User.find(p.user_id))
+      @suscribers << User.find(p.user_id)
 
       # On regarde si l'utilisateur est inscrit ou non
       @inscription = PartyUser.where(user_id: @user_id, party_id: params[:id])
@@ -54,20 +54,26 @@ class PartiesController < ApplicationController
     # On récupère toutes les soirées
     @parties = Party.all
 
+    # leurs participants
     @suscribers_by_party = Array.new
+    # et leur organisateur
+    @party_creator = Array.new
 
     # Pour chaque soirée, on récupère les participants
     @parties.each_with_index do |party, index|
       # Les id des users participants
       @inscriptions = PartyUser.where(party_id: party.id)
       @suscribers_by_party[index] = Array.new
+
       # Pour chaque inscription
       @inscriptions.each do |i|
         # on récupère à partir du user_id le user correspondant
         # on le stocke dans la liste des inscrits à la soirées
-        @suscribers_by_party[index].push(User.find(i.user_id))
+        @suscribers_by_party[index] << User.find(i.user_id)
       end
-      # @suscribers_by_party[index].push(User.find(party.user_id))
+
+      # On récupère l'organisateur
+      @party_creator << User.find(party.user_id)
     end 
   end
 
