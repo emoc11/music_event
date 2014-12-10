@@ -105,9 +105,15 @@ class PartiesController < ApplicationController
     params[:party][:user_id] = @user_id
     @party = Party.new(params.require(:party).permit(:user_id,:name, :date, :begin_hour, :artist, :price, :adress, :description))
       if @party.save
-        redirect_to :controller => 'parties', :action => 'show', :id => @party.id
+        @partyUser = PartyUser.new(party_id: @party.id, user_id: current_user.id)
+        if @partyUser.save
+          redirect_to :controller => 'parties', :action => 'show', :id => @party.id
+        else
+          flash.now.alert = "Something went wrong, please contact admin."
+        end
       else
-
+        flash.now.alert = "Please fill anything before creating the event !"
+        render 'new'
       end
   end
 

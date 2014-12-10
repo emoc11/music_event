@@ -16,7 +16,6 @@
   <!-- Liste des utilisateurs inscrits à cet event -->
 <h2>Suscribers :</h2>
 
-<a href="/users/<%= @creator.id %>"><%= @creator.login %></a>
 <% @suscribers.each do |s| %>
 	<a href="/users/<%= s.id %>"><%= s.login %></a><br/>
 <% end %>
