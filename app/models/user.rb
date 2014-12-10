@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # Validation des différents champs
   validates :login, presence: true, length: { maximum: 50 }
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i }, uniqueness: { case_sensitive: false }
-  validates :password, length: { minimum: 6 }, presence: true, confirmation: true, :on => :create
+  validates :password, length: { minimum: 6 }, presence: true, confirmation: true
 
   before_save {
     email.downcase!

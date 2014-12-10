@@ -1,0 +1,26 @@
+
+  <!-- Formulaire de modification -->
+<% provide(:title, "Edit user") %>
+<h1>Update your profile</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@user) do |f| %>
+      <%= render 'shared/error_messages' %>
+
+      <p>Your login is : <%= @user.login %></p>
+      <p>Your email is : <%= @user.email %></p>
+
+      <h2> Change Your password </h2>
+
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.label :password_confirmation, "Confirmation" %>
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+      <%= f.submit "Save changes", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

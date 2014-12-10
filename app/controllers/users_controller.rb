@@ -36,6 +36,25 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    if User.exists?(:id => params[:id])
+      isconnect?
+      @user = User.find(params[:id])
+    else
+      render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+    end
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      flash[:success] = "Profile updated"
+      redirect_to @user
+    else
+      render'edit'
+    end
+  end
+
   # définition des paramètre pour l'inscription
   def user_params
     params.require(:user).permit(:login, :email, :password, :password_confirmation)
