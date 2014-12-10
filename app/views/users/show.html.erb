@@ -1,8 +1,11 @@
-
-  <!-- Affichage des informations concernant un utilisateur -->
-<h1><%= @user.login %></h1>
-<br/>
-<div>
-  <p> Email : <%= @user.email %></p>
-  <!-- <p> Password : <%= @user.password_digest %></p>  -->
+<div class="row">
+	<div class="jumbotron col-md-12">
+		  <!-- Affichage des informations concernant un utilisateur -->
+		<h1>Profile of <%= @user.login %></h1>
+		<br/>
+		<div>
+		  <p> Email : <%= @user.email %></p>
+		  <!-- <p> Password : <%= @user.password_digest %></p>  -->
+		</div>
+	</div>
 </div>
