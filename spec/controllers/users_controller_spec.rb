@@ -15,6 +15,18 @@ RSpec.describe UsersController, :type => :controller do
         get :show, :id => user.id
         expect(response).to have_http_status(302)
     end
+
+    it "/users/new" do
+        user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyruby", password_confirmation: "rubyruby")
+        get :show, :id => user.id
+        expect(response).to have_http_status(302)
+    end
+
+    it "/users/id/edit" do
+        user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyruby", password_confirmation: "rubyruby")
+        get :edit, :id => user.id
+        expect(response).to have_http_status(302)
+    end
   end
 
   context "Logged in, can access :" do
@@ -23,6 +35,7 @@ RSpec.describe UsersController, :type => :controller do
       @user.save!
       session[:user_id] = @user.id
     end
+
     it "/users/ exist with a title" do
       get :index
       expect(response).to have_http_status(:success)

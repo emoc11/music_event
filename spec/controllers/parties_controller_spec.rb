@@ -4,93 +4,100 @@ RSpec.describe PartiesController, :type => :controller do
 
   render_views
 
-  describe "GET index" do
-    it "displays a list of posts with some author details" do
-      eileen = User.create(name: "Eileen #{rand(1000)}", email: "Eileen@rs.com")
-      benson = User.create(name: "Benson #{rand(1000)}", email: "benson@rs.com")
-
-      a_post = Post.create(user: eileen, message: "Hello")
-      an_unpublished_post = Post.create(user: eileen, message: "Not published!", published: false)
-      a_post_again = Post.create(user: eileen, message: "Hello all!")
-      benson_post = Post.create(user: benson, message: "And another one #{rand 1000}")
-
+  context "Not logged in, can't access :" do
+    it "/parties/" do
       get :index
-      expect(response).to have_http_status(:success)
-
-      expect(response.body).to include("#{eileen.name} wrote #{a_post.message}")
-      expect(response.body).to include("#{eileen.name} wrote #{a_post_again.message}")
-      expect(response.body).to include("#{benson.name} wrote #{benson_post.message}")
-      expect(response.body).to_not include("Not published")
+      expect(response).to have_http_status(302)
     end
 
-    it "only display published posts" do
-      eileen = User.create(name: "Eileen #{rand(1000)}", email: "Eileen@rs.com")
-      a_post = Post.create(user: eileen, message: "Hello")
-      an_unpublished_post = Post.create(user: eileen, message: "Not published!", published: false)
+    it "/parties/id" do
+      user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails", password_confirmation: "rubyonrails")
+      user.save!
 
-      get :index
-      expect(response).to have_http_status(:success)
-
-      expect(response.body).to include("#{eileen.name} wrote #{a_post.message}")
-      expect(response.body).to_not include("Not published")
+      party = Party.create(user_id: user.id, name: "Une partie trop cool", date: "2014-04-11", begin_hour: 18, artist: "Moi", price: 10, adress: "3 rue d'Estienne d'Orves 94110 Arcueil")
+      party.save!
+      get :show, :id => party.id
+      expect(response).to have_http_status(302)
     end
-  end
 
-  describe "GET new" do
-    # Basic new form: http://cl.ly/image/1a1p3l2X0A1E
-    it "displays a form to create a new post" do
-      User.create(name: "Eileen", email: "Eileen@rs.com")
-      User.create(name: "Benson", email: "benson@rs.com")
-
+    it "/parties/new" do
       get :new
+      expect(response).to have_http_status(302)
+    end
 
+    it "/parties/all" do
+      get :all
+      expect(response).to have_http_status(302)
+    end
+  end
+
+  context "Logged in as emoc11->has a party named 'Partie de emoc11' :" do
+    before(:each) do
+      @user = User.create(login: "emoc11", email: "emoc11@free.fr", password: "rubyonrails", password_confirmation: "rubyonrails")
+      @user.save!
+      @party = Party.create(user_id: @user.id, name: "Partie de emoc11", date: "2014-04-11", begin_hour: 18, artist: "emoc11", price: 10, adress: "3 rue d'Estienne d'Orves 94110 Arcueil", description: "La meilleure soirée !")
+      @party.save!
+      session[:user_id] = @user.id
+
+      @user2 = User.create(login: "emoc22", email: "emoc22@free.fr", password: "rubyonrails", password_confirmation: "rubyonrails")
+      @user2.save!
+      @party2 = Party.create(user_id: @user2.id, name: "Emoc22 event", date: "2014-04-11", begin_hour: 18, artist: "emoc22", price: 10, adress: "autre", description: "Mieux que l'autre, ou pas !")
+      @party2.save!
+    end
+
+    it "/parties/ show my created event" do
+      get :index
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("Create a new post!")
-      expect(response.body).to include("Eileen")
-      expect(response.body).to include("Benson")
-    end
-  end
-
-  describe "GET show" do
-    it "displays a post" do
-      user = User.create(name: "Eileen #{rand 1000}", email: "Eileen@rs.com")
-      my_post = Post.create(user: user, message: "Showing the post #{rand 1000}")
-
-      get "show", id: my_post.id
-
-      expect(response.body).to include("Post by #{user.name}")
-      expect(response.body).to include(my_post.message)
+      expect(response.body).to include("My created events")
+      expect(response.body).to include("Partie de emoc11")
     end
 
-    it "returns a 404 if the post has been unpublished" do
-      user = User.create(name: "Eileen #{rand 1000}", email: "Eileen@rs.com")
-      my_post = Post.create(user: user, message: "Lorem", published: false)
+    it "/parties/ show my subscribed event" do
+      get :index
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("My subscribed events")
+      expect(response.body).not_to include("Emoc22 event")
 
-      get "show", id: my_post.id
+      # inscription à la soirée de Emoc22
+      partyUser = PartyUser.create(user_id: @user.id, party_id: @party2.id)
+      partyUser.save!
 
-      expect(response).to have_http_status(404)
-    end
-  end
-
-  describe "POST create" do
-    it "creates a new post" do
-      user = User.create(name: "Eileen", email: "Eileen@rs.com")
-
-      post :create, post: { user_id: user.id, message: "Hello yall!" }
-      expect(response).to redirect_to(posts_path)
-
-      last_post_created = Post.last
-      expect(last_post_created.message).to eq("Hello yall!")
-      expect(last_post_created.user.id).to eq(user.id)
+      get :index
+      expect(response.body).to include("My subscribed events")
+      expect(response.body).to include("Emoc22 event")
     end
 
-    it "fails gracefuly if there is a validation error" do
-      user = User.create(name: "Eileen", email: "Eileen@rs.com")
+    it "/parties/id show informations about the party" do
+      get :show, :id => @party.id
+      expect(response.body).to include("Partie de emoc11")
+      expect(response.body).to include("La meilleure soirée !")
+      expect(response.body).to include("Hosted by")
+      expect(response.body).to include("you")
 
-      post :create, post: { user_id: nil, message: "Hello yall!" }
+      get :show, :id => @party2.id
+      expect(response.body).to include("Emoc22 event")
+      expect(response.body).to include("Mieux que l&#39;autre, ou pas !")
+      expect(response.body).to include("Hosted by")
+      expect(response.body).to include("emoc22")
+    end
 
-      expect(response.body).to include("User can&#39;t be blank")
-      expect(Post.count).to eq(0)
+    it "/parties/id show subscriber's list" do
+      partyUser = PartyUser.create(user_id: @user.id, party_id: @party2.id)
+      partyUser.save!
+      get :show, :id => @party2.id
+      expect(response.body).to include("Subscribers :")
+      expect(response.body).to include("emoc11")
+      expect(response.body).to include("emoc22")
+    end
+
+    it "/parties/all show party's list" do
+      get :all
+      expect(response.body).to include("Partie de emoc11")
+      expect(response.body).to include("Emoc22 event")
+    end
+
+    after(:each) do
+      session[:user_id] = nil
     end
   end
 end

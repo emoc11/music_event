@@ -7,14 +7,14 @@ class PartiesController < ApplicationController
   def index
 
     # 1) Soirées créées par l'utilisateur
-    @created_parties = Party.where(user_id: @user_id)
+    @created_parties = Party.where(user_id: current_user.id)
 
     # 2) Soirées auxquelles participent l'utilisateur
     @suscribed_parties = Array.new
     i=0
 
     # On récupère les id des soirées auxquelles le user est inscrit
-    user_parties = PartyUser.where(user_id: @user_id)
+    user_parties = PartyUser.where(user_id: current_user.id)
 
     # On récupère les soirées auxquelles est inscrit le user, autres que celles créées par lui
     user_parties.each do |p|
@@ -41,7 +41,7 @@ class PartiesController < ApplicationController
       @suscribers << User.find(p.user_id)
 
       # On regarde si l'utilisateur est inscrit ou non
-      @inscription = PartyUser.where(user_id: @user_id, party_id: params[:id])
+      @inscription = PartyUser.where(user_id: current_user.id, party_id: params[:id])
     end
     else
       render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
@@ -102,7 +102,7 @@ class PartiesController < ApplicationController
 
   # Création d'une nouvelle party
   def create
-    params[:party][:user_id] = @user_id
+    params[:party][:user_id] = current_user.id
     @party = Party.new(params.require(:party).permit(:user_id,:name, :date, :begin_hour, :artist, :price, :adress, :description))
       if @party.save
         @partyUser = PartyUser.new(party_id: @party.id, user_id: current_user.id)

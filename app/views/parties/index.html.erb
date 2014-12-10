@@ -6,6 +6,7 @@
   <!-- Events crées par l'utilisateur actif -->
 <h1>My created events</h1>
 <br/>
+<div class="createdEvent">
 <% if @created_parties.empty? %>
 	<p> You didn't create any event yet !</p>
 <% else %>
@@ -15,11 +16,13 @@
 		<hr>
 	<% end %>
 <% end %>
+</div>
 <br/><br/>
 
   <!-- Events auquel l'utilisateur s'est inscrit -->
-<h1>My suscribed events</h1>
+<h1>My subscribed events</h1>
 <br/>
+<div class="subscribedEvent">
 <% if @suscribed_parties.empty? %>
 	<p> You didn't suscribe to any event ! See <a href="/parties/all">all the parties</a> !</p>
 <% else %>
@@ -29,4 +32,5 @@
 		<hr>
 	<% end %>
 <% end %>
+</div>
 
