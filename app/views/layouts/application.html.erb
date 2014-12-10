@@ -17,7 +17,7 @@
     <%= button_to "Connect", {:controller=>"sessions", :action=>"new"}, :method => :get %>
   <% else %>
     <h3>Logged in as : <%= current_user.login %></h3>
-    <%= button_to "Edit", {:controller=>"users", :action=>"edit"}, :method => :get %>
+    <%= button_to "Edit", {:controller=>"users", :action=>"edit", :id => current_user.id}, :method => :get %>
     <%= button_to "Disconnect", {:controller=>"sessions", :action=>"destroy"}, :method => :delete %>
   <% end %>
 
