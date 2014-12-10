@@ -2,6 +2,8 @@
 <a href="/parties/all">All the parties</a><br/>
 <a href="/signout">Sign out</a><br/>
 <br/>
+
+  <!-- Events crées par l'utilisateur actif -->
 <h1>My created events</h1>
 <br/>
 <% if @created_parties.empty? %>
@@ -15,6 +17,7 @@
 <% end %>
 <br/><br/>
 
+  <!-- Events auquel l'utilisateur s'est inscrit -->
 <h1>My suscribed events</h1>
 <br/>
 <% if @suscribed_parties.empty? %>

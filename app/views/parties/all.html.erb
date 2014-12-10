@@ -1,5 +1,6 @@
 <h1>All events</h1>
 <br/>
+<!-- Liste des parties -->
 <% @parties.each_with_index do |party, index| %>
 	<a href="/parties/<%= party.id %>"><h2><%= party.name %></h2></a><br/>
 	Date : <%= party.date %><br/>

@@ -1,3 +1,5 @@
+
+  <!-- Affichage des infos de l'event -->
 <h1><%= @party.name %> - Hosted by 
 	<% if @creator.id == @user_id %>
 		<a href="/users/<%= @user_id %>">you</a>
@@ -11,6 +13,7 @@
 
 <hr/>
 
+  <!-- Liste des utilisateurs inscrits à cet event -->
 <h2>Suscribers :</h2>
 
 <a href="/users/<%= @creator.id %>"><%= @creator.login %></a>

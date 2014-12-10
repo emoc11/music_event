@@ -1,11 +1,11 @@
 class PartiesController < ApplicationController
 
   before_action do
-   @user_id = 4
+    isconnect?
   end
 
   def index
-  	
+
     # 1) Soirées créées par l'utilisateur
     @created_parties = Party.where(user_id: @user_id)
 
@@ -25,26 +25,27 @@ class PartiesController < ApplicationController
   end
 
   def show
-    # On récupère les informations sur la soirée
-  	@party = Party.find(params[:id])
+    # test si existe en BDD avant utilisation
+    if Party.exists?(:id => params[:id])
+      # On récupère les informations sur la soirée
+      @party = Party.find(params[:id])
+      # Les informations sur le créateur de la soirée
+      @creator = User.find(@party.user_id)
+      # On récupère les id des utilisateurs qui participent à la soirée
+      party_users = PartyUser.where(party_id: params[:id])
 
-    # Les informations sur le créateur de la soirée
-    @creator = User.find(@party.user_id)
+      @suscribers = Array.new
 
-    # On récupère les id des utilisateurs qui participent à la soirée
-  	party_users = PartyUser.where(party_id: params[:id])
-
-    @suscribers = Array.new
-    
-  	party_users.each do |p|
+      party_users.each do |p|
       # On récupère les utilisateurs pour les afficher
-		  @suscribers.push(User.find(p.user_id))
-  	end
+      @suscribers.push(User.find(p.user_id))
 
-    # On regarde si l'utilisateur est inscrit ou non
-    @inscription = PartyUser.where(user_id: @user_id, party_id: params[:id])
-
-  	# render status: 404 unless @party != nil
+      # On regarde si l'utilisateur est inscrit ou non
+      @inscription = PartyUser.where(user_id: @user_id, party_id: params[:id])
+    end
+    else
+      render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+    end
 
   end
 
@@ -93,8 +94,9 @@ class PartiesController < ApplicationController
     redirect_to :controller => 'parties', :action => 'show', :id => params[:unsuscribe][:party_id]
   end
 
+  # Création d'une nouvelle party
   def create
-    params[:party][:user_id] = 3
+    params[:party][:user_id] = @user_id
     @party = Party.new(params.require(:party).permit(:user_id,:name, :date, :begin_hour, :artist, :price, :adress, :description))
       if @party.save
         redirect_to :controller => 'parties', :action => 'show', :id => @party.id
