@@ -7,7 +7,7 @@ class PartiesController < ApplicationController
   def index
 
     # 1) Soirées créées par l'utilisateur
-    @created_parties = Party.where(user_id: current_user.id)
+    @created_parties = Party.where(user_id: @user_id)
 
     # 2) Soirées auxquelles participent l'utilisateur...
     @subscribed_parties = Array.new
@@ -15,12 +15,13 @@ class PartiesController < ApplicationController
     # 3) ... et leur nombre de participants
     @subscribers_by_party = Array.new
 
-    # On récupère les id des soirées auxquelles le user est inscrit
-    user_parties = PartyUser.where(user_id: current_user.id)
+    # Dans la table "PartyUser", on récupère les id des soirées auxquelles le user est inscrit
+    user_parties = PartyUser.where(user_id:  @user_id)
 
-    # On récupère les soirées auxquelles est inscrit le user
+    # Dans la table "Party", On récupère les informations sur celles-ci
     user_parties.each do |p|
       @subscribed_parties.push(Party.find(p.party_id))
+      # ainsi que le nombre de participants à chacune
       @subscribers_by_party.push(PartyUser.where(party_id: @subscribed_parties.last.id).count) 
     end
 
@@ -43,7 +44,7 @@ class PartiesController < ApplicationController
       @subscribers << User.find(p.user_id)
 
       # On regarde si l'utilisateur est inscrit ou non
-      @inscription = PartyUser.where(user_id: current_user.id, party_id: params[:id])
+      @inscription = PartyUser.where(user_id: @user_id, party_id: params[:id])
 
       if @creator.id == @user_id
         @user_is_creator = true
@@ -102,10 +103,10 @@ class PartiesController < ApplicationController
 
   # Création d'une nouvelle party
   def create
-    params[:party][:user_id] = current_user.id
+    params[:party][:user_id] = @user_id
     @party = Party.new(params.require(:party).permit(:user_id,:name, :date, :begin_hour, :artist, :price, :adress, :description))
       if @party.save
-        @partyUser = PartyUser.new(party_id: @party.id, user_id: current_user.id)
+        @partyUser = PartyUser.new(party_id: @party.id, user_id: @user_id)
         if @partyUser.save
           redirect_to :controller => 'parties', :action => 'show', :id => @party.id
         else
