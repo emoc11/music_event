@@ -12,7 +12,9 @@
 			<% else %>
 				<% @created_parties.each_with_index do |c_party, index| %>
 					<div class="col-lg-6">
-						<h4><a class="alert alert-success" href="/parties/<%= c_party.id %>"><%= c_party.name %></a></h4><br/>
+						<h4>
+							<a class="alert alert-success" href="/parties/<%= c_party.id %>"><%= c_party.name %></a></h4>
+						<br/>
 						Date : <%= c_party.date %> at <%= c_party.begin_hour %>h<br/>
 						At : <%= c_party.adress %><br/>
 						Description : <i><%= c_party.description %></i><br/>
@@ -36,17 +38,17 @@
 					<div class="col-lg-6">
 						<h4>
 							<a class="alert alert-success" href="/parties/<%= s_party.id %>"><%= s_party.name %></a>
-							<!-- Affichage du réateur de la soirée -->
-							hosted by
-							<!-- Si le créateur de la soirée a le même id que le user connecté -->
-							<% if s_party.user_id == @user_id %>
-								 you<br/>
-							<!-- sinon -->
-							<% else %>
-								<a class="alert alert-info" href="users/<%= s_party.user_id %>"><%= User.find(s_party.user_id).login %></a><br/>
-							<% end %>
 						</h4>
 						<br/>
+						<!-- Affichage du réateur de la soirée -->
+						Host : 
+						<!-- Si le créateur de la soirée a le même id que le user connecté -->
+						<% if s_party.user_id == @user_id %>
+							 you<br/>
+						<!-- sinon -->
+						<% else %>
+							<a href="users/<%= s_party.user_id %>"><%= User.find(s_party.user_id).login %></a><br/>
+						<% end %>
 						Date : <%= s_party.date %> at <%= s_party.begin_hour %>h<br/>
 						At : <%= s_party.adress %><br/>
 						Description : <i><%= s_party.description %></i><br/>

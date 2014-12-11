@@ -1,13 +1,16 @@
 <div class="row">
 	<div class="jumbotron col-md-12">
 		<!-- Affichage des infos de l'event -->
-		<h2><%= @party.name %> - Hosted by
-			<% if @user_is_creator %>
-				<a href="/users/<%= @user_id %>">you</a>
-			<% else %>
-				<a class="alert alert-info" href="/users/<%= @creator.id %>" class="alert alert-info"><%= @creator.login %></a>
-			<% end %>
-		</h2>
+		<h2><span class="alert alert-success"><%= @party.name %></h2><br/>
+		
+		Host : 
+		<% if @user_is_creator %>
+			<a href="/users/<%= @user_id %>">you</a>
+		<% else %>
+			<a href="/users/<%= @creator.id %>"><%= @creator.login %></a>
+		<% end %>
+		<br/>
+
 		Begin the : <%= @party.date %> at <%= @party.begin_hour %>h<br/>
 		Where : <%= @party.adress %><br/>
 		Price : <%= @party.price %> €<br/>

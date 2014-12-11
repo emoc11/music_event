@@ -7,11 +7,9 @@
 		<!-- Liste des parties -->
 		<% @parties.each_with_index do |party, index| %>
 			<div class="col-lg-6">
-				<h4>
-					<a class="alert alert-success" href="/parties/<%= party.id %>"><%= party.name %></a>
-					hosted by : 
-					<a class="alert alert-info" href="/users/<%= @party_creator[index].id %>"><%= @party_creator[index].login %></a>
-				</h4><br/>
+				<h4><a class="alert alert-success" href="/parties/<%= party.id %>"><%= party.name %></a></h4>
+				<br/>
+				Host : <a href="/users/<%= @party_creator[index].id %>"><%= @party_creator[index].login %></a><br/>
 				Date : <%= party.date %><br/>
 				At : <%= party.adress %><br/>
 				<i><%= party.description %></i><br/>
