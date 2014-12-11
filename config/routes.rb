@@ -5,8 +5,8 @@ Rails.application.routes.draw do
 
   # Routes pour affichage complet des parties, inscription et desinscription à l'une d'elle
   get 'parties/all'
-  post 'parties/suscribe'
-  post 'parties/unsuscribe'
+  post 'parties/subscribe'
+  post 'parties/unsubscribe'
   get 'users/edit'
 
 

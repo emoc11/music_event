@@ -1,25 +1,30 @@
-<%= form_for(Party.find(params[:id])) do |f| %>
+<div class="row">
+    <div class="jumbotron col-md-12">
+        <h1>Edit the event : <%= Party.find(params[:id]).name %> </h1>
+        <%= form_for(Party.find(params[:id])) do |f| %>
 
-    <%= f.label :name %>
-    <%= f.text_field :name, class: 'form-control' %>
+            <%= f.label :name %>
+            <%= f.text_field :name, class: 'form-control' %>
 
-    <%= f.label :date %>
-    <%= f.date_field :date, class: 'form-control' %>
+            <%= f.label :date %>
+            <%= f.date_field :date, class: 'form-control' %>
 
-    <%= f.label :begin_hour %>
-    <%= f.number_field :begin_hour, class: 'form-control' %>
+            <%= f.label :begin_hour %>
+            <%= f.number_field :begin_hour, class: 'form-control' %>
 
-    <%= f.label :artist %>
-    <%= f.text_field :artist, class: 'form-control' %>
+            <%= f.label :artist %>
+            <%= f.text_field :artist, class: 'form-control' %>
 
-    <%= f.label :price  %>
-    <%= f.number_field :price,class: 'form-control'%>
+            <%= f.label :price  %>
+            <%= f.number_field :price,class: 'form-control'%>
 
-    <%= f.label :adress %>
-    <%= f.text_field :adress, class: 'form-control' %>
+            <%= f.label :adress %>
+            <%= f.text_field :adress, class: 'form-control' %>
 
-    <%= f.label :description %>
-    <%= f.text_field :description, class: 'form-control' %>
-
-    <%= f.submit "Update" %>
-<% end %>
+            <%= f.label :description %>
+            <%= f.text_field :description, class: 'form-control' %>
+            <br/>
+            <%= f.submit "Update", class: 'btn btn-success' %>
+        <% end %>
+    </div>
+</div>

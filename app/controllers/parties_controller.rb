@@ -9,17 +9,19 @@ class PartiesController < ApplicationController
     # 1) Soirées créées par l'utilisateur
     @created_parties = Party.where(user_id: current_user.id)
 
-    # 2) Soirées auxquelles participent l'utilisateur
-    @suscribed_parties = Array.new
-    i=0
+    # 2) Soirées auxquelles participent l'utilisateur...
+    @subscribed_parties = Array.new
+
+    # 3) ... et leur nombre de participants
+    @subscribers_by_party = Array.new
 
     # On récupère les id des soirées auxquelles le user est inscrit
     user_parties = PartyUser.where(user_id: current_user.id)
 
-    # On récupère les soirées auxquelles est inscrit le user, autres que celles créées par lui
+    # On récupère les soirées auxquelles est inscrit le user
     user_parties.each do |p|
-      @suscribed_parties[i] = Party.find(p.party_id)
-      i+= 1
+      @subscribed_parties.push(Party.find(p.party_id))
+      @subscribers_by_party.push(PartyUser.where(party_id: @subscribed_parties.last.id).count) 
     end
 
   end
@@ -34,11 +36,11 @@ class PartiesController < ApplicationController
       # On récupère les id des utilisateurs qui participent à la soirée
       party_users = PartyUser.where(party_id: params[:id])
 
-      @suscribers = Array.new
+      @subscribers = Array.new
 
       party_users.each do |p|
       # On récupère les utilisateurs pour les afficher
-      @suscribers << User.find(p.user_id)
+      @subscribers << User.find(p.user_id)
 
       # On regarde si l'utilisateur est inscrit ou non
       @inscription = PartyUser.where(user_id: current_user.id, party_id: params[:id])
@@ -61,29 +63,21 @@ class PartiesController < ApplicationController
     @parties = Party.all
 
     # leurs participants
-    @suscribers_by_party = Array.new
+    @subscribers_by_party = Array.new
     # et leur organisateur
     @party_creator = Array.new
 
-    # Pour chaque soirée, on récupère les participants
-    @parties.each_with_index do |party, index|
+    # Pour chaque soirée, on récupère le nombre de participants
+    @parties.each do |party|
       # Les id des users participants
-      @inscriptions = PartyUser.where(party_id: party.id)
-      @suscribers_by_party[index] = Array.new
-
-      # Pour chaque inscription
-      @inscriptions.each do |i|
-        # on récupère à partir du user_id le user correspondant
-        # on le stocke dans la liste des inscrits à la soirées
-        @suscribers_by_party[index] << User.find(i.user_id)
-      end
+      @subscribers_by_party << PartyUser.where(party_id: party.id).count
 
       # On récupère l'organisateur
       @party_creator << User.find(party.user_id)
     end
   end
 
-  def suscribe
+  def subscribe
 
     # on enregistre l'inscription du user à la soirée
     @inscription = PartyUser.new(params.require(:partyuser).permit(:user_id, :party_id))
@@ -97,13 +91,13 @@ class PartiesController < ApplicationController
     # redirection sur la page de la soirée
   end
 
-  def unsuscribe
+  def unsubscribe
 
     # on supprime l'inscription du user à la soirée
-    PartyUser.where(user_id: params[:unsuscribe][:user_id]).where(party_id: params[:unsuscribe][:party_id]).destroy_all
+    PartyUser.where(user_id: params[:unsubscribe][:user_id]).where(party_id: params[:unsubscribe][:party_id]).destroy_all
 
     # redirection sur la page de la soirée
-    redirect_to :controller => 'parties', :action => 'show', :id => params[:unsuscribe][:party_id]
+    redirect_to :controller => 'parties', :action => 'show', :id => params[:unsubscribe][:party_id]
   end
 
   # Création d'une nouvelle party

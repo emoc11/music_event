@@ -5,49 +5,48 @@
 			<% if @user_is_creator %>
 				<a href="/users/<%= @user_id %>">you</a>
 			<% else %>
-				<a href="/users/<%= @creator.id %>"><%= @creator.login %></a>
+				<a class="alert alert-info" href="/users/<%= @creator.id %>" class="alert alert-info"><%= @creator.login %></a>
 			<% end %>
 		</h2>
-		<p>Begin the : <%= @party.date %> at <%= @party.begin_hour %>h </p> 
-		<p>Where : <%= @party.adress %></p>
-		<p>Price : <%= @party.price %> €</p>
-		<br/>
-		<p>Artist : <%= @party.artist %></p>
+		Begin the : <%= @party.date %> at <%= @party.begin_hour %>h<br/>
+		Where : <%= @party.adress %><br/>
+		Price : <%= @party.price %> €<br/>
+		Artist : <%= @party.artist %><br/>
 		<% if !@party.description.blank? %>
-		<p>Description : <i><%= @party.description %></i></p>
+		Description : <i><%= @party.description %></i><br/>
 		<% end %>
 		<hr>
-		<!-- Cas 1 : l'utilisateur connecté n'est pas le créateur de la soirée
+		<!-- Cas 1 : l'utilisateur connecté est pas le créateur de la soirée
+		Il peut supprimer la soirée  -->
+		<% if @user_is_creator %>
+			<%= link_to "Edit", {:controller=>"parties", :action=>"edit", :id=>@party.id}, :method => :get, class: "btn btn-info" %>
+			<%= link_to "Cancel my party", @party, :method => :delete, class: "btn btn-danger", data: { confirm: "Do you really want to delete '#{@party.name}' event ?" } %>
+		<!-- Cas 2 : l'utilisateur connecté n'est pas le créateur de la soirée
 		Il peut s'inscrire ou se désinscrire la soirée  -->
-		<% if @creator.id != @user_id %>
+		<% else %>
 			<!-- Utilisateur non inscrit -->
 			<% if @inscription.blank? %>
-				<%= form_for :partyuser, url: {action: "suscribe"} do |f| %>
+				<%= form_for :partyuser, url: {action: "subscribe"} do |f| %>
 					<%= f.hidden_field :user_id, :value => @user_id %>
 					<%= f.hidden_field :party_id, :value => params[:id] %>
-					<%= f.submit "Suscribe",  class: "btn btn-success" %>
+					<%= f.submit "Subscribe",  class: "btn btn-success" %>
 				<% end %>
 			<!-- Utilisateur inscrit -->
 			<% else %>
- 				<%= form_for :unsuscribe, url: {action: "unsuscribe"} do |f| %>
+ 				<%= form_for :unsubscribe, url: {action: "unsubscribe"} do |f| %>
 					<%= f.hidden_field :user_id, :value => @user_id %>
 					<%= f.hidden_field :party_id, :value => params[:id] %>
-					<%= f.submit "Unsuscribe",  class: "btn btn-danger" %>
+					<%= f.submit "Unsubscribe",  class: "btn btn-danger" %>
 				<% end %>
 			<% end %>
-		<!-- Cas 2 : l'utilisateur connecté est le créateur de la soirée
-		Il peut supprimer la soirée  -->
-		<% else %>
-			<%= link_to "Edit", {:controller=>"parties", :action=>"edit", :id=>@party.id}, :method => :get, class: "btn btn-info" %>
-			<%= link_to "Cancel my party", @party, :method => :delete, class: "btn btn-danger", data: { confirm: "Do you really want to delete '#{@party.name}' event ?" } %>
 		<% end %>
 
 		<hr/>
 
 		<!-- Liste des utilisateurs inscrits à cet event -->
-		<h2>Suscribers :</h2>
-
-		<% @suscribers.each do |s| %>
-			<a href="/users/<%= s.id %>"><%= s.login %></a>
+		<h3>Subscribers :</h3>
+		<br/>
+		<% @subscribers.each do |s| %>
+			<a class="alert alert-info" href="/users/<%= s.id %>"><%= s.login %></a>
 		<% end %>
 </div>

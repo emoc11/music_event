@@ -6,16 +6,16 @@
 		<br/>
 		<!-- Liste des parties -->
 		<% @parties.each_with_index do |party, index| %>
-			<div class="col-lg-4">
-				<a href="/parties/<%= party.id %>"><h3><%= party.name %></h3></a>
-				Hosted by : <a href="/users/<%= @party_creator[index].id %>"><%= @party_creator[index].login %></a><br/>
+			<div class="col-lg-6">
+				<h4>
+					<a class="alert alert-success" href="/parties/<%= party.id %>"><%= party.name %></a>
+					hosted by : 
+					<a class="alert alert-info" href="/users/<%= @party_creator[index].id %>"><%= @party_creator[index].login %></a>
+				</h4><br/>
 				Date : <%= party.date %><br/>
 				At : <%= party.adress %><br/>
 				<i><%= party.description %></i><br/>
-				<strong><%= @suscribers_by_party[index].size %></strong> people will participate !
-			<!-- 	<% @suscribers_by_party[index].each do |suscriber| %>
-					<a href="/users/<%= suscriber.id %>"><%= suscriber.login %></a> - 
-				<% end %> -->
+				<strong><%= @subscribers_by_party[index] %></strong> people will participate !
 				<hr>
 			</div>
 		<% end %>

@@ -1,23 +1,35 @@
 <div class="row">
 	<div class="jumbotron col-md-12">
+		
 		<!-- Affichage des informations concernant un utilisateur -->
-		<h1>Profile of <%= @user.login %></h1>
+		<h1>Profile of <span style="color:#337ab7"><%= @user.login %></span></h1>
 		<p> Email : <%= @user.email %></p>
+
 		<!-- Affichage des soirées qu'il a créées -->
 		<h2>Events of <%= @user.login %></h2>
+		<br/>
+
 		<% if @created_parties.blank? %>
 			This user hasn't created any event yet !
 		<% else %>
 			<% @created_parties.each_with_index do |p, index| %>
-				<div class="col-md-3">
-					<h3><a href="parties/<%= p.id %>"><%= p.name %></a></h3>
-					<p>
-						<%= p.date %><br/>
-						<%= p.adress %><br/>
-						<% if @suscribers.present? && @suscribers[index].present? %>
-						Number of suscribers : <%= @suscribers[index].size %><br/>
+				<div class="col-lg-6">
+					<h4>
+						<a class="alert alert-success" href="/parties/<%= p.id %>"><%= p.name %></a> hosted by
+						<% if p.user_id == @user_id %>
+							<%= User.find(p.user_id).login %>
+						<% else %>
+							<a class="alert alert-info" href="/users/<%= p.user_id %>"><%= User.find(p.user_id).login %></a>
 						<% end %>
-					</p>
+					</h4><br/>
+					Date : <%= p.date %> at <%= p.begin_hour %><br/>
+					Adress : <%= p.adress %><br/>
+					<% if p.description.present? %>
+						<i><%= p.description %></i><br/>
+					<% end %>
+					<% if @subscribers.present? && @subscribers[index].present? %>
+						Number of subscribers : <%= @subscribers[index].size %><br/>
+					<% end %>
 				</div>
 			<% end %>
 		<% end %>
