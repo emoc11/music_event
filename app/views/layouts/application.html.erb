@@ -7,15 +7,17 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-      <!-- Verification connecté/deconnecté et affichage en fonction -->
-      <% if current_user.blank?  # Si utilisateur non connecté %>
-        <%= button_to "Connect", {:controller=>"sessions", :action=>"new"}, :method => :get %>
-      <% else %>
-        <span class="navbar-brand">Logged in as : <%= current_user.login %></span>
-        <%= button_to "Home", {:controller=>"parties", :action=>"index"}, :method => :get %>
-        <%= button_to "Edit", {:controller=>"users", :action=>"edit"}, :method => :get %>
-        <%= button_to "Disconnect", {:controller=>"sessions", :action=>"destroy"}, :method => :delete %>
-      <% end %>
+  <!-- Verification connecté/deconnecté et affichage en fonction -->
+  <% if current_user.present?  # Si utilisateur non connecté %>
+    <nav class="navbar navbar-default">
+      <div class="buttons">
+        <%= button_to "Home", {:controller=>"parties", :action=>"index"}, :method => :get, class: "btn btn-success"  %>
+        <%= button_to "Create a party", {:controller=>"parties", :action=>"new"}, :method => :get, class: "btn btn-warning"  %>
+        <%= button_to "Edit my profile", {:controller=>"users", :action=>"edit"}, :method => :get, class: "btn btn-info"  %>
+        <%= button_to "Disconnect", {:controller=>"sessions", :action=>"destroy"}, :method => :delete, class: "btn btn-danger"  %>
+      </div>
+    </nav>
+  <% end %>
 
   <!-- Affichage des vues partielles -->
   <div class="container">

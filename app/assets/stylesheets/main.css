@@ -1,0 +1,12 @@
+.navbar{
+	min-height : 0 !important;
+	padding: 4px 0 5px; 
+}
+
+nav .buttons {
+	text-align: center;
+}
+
+nav form, nav form *{
+	display: inline;
+}

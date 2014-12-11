@@ -6,7 +6,7 @@
 
     <h1>Welcome to Music Events !</h1>
 
-    <h2>Log in</h2>
+    <h2>Log yourself !</h2>
 
     <%= form_for(:session, url: login_path) do |f| %>
 
@@ -16,7 +16,7 @@
       <%= f.label :password %>
       <%= f.password_field :password, class: 'form-control' %>
       <br/>
-      <%= f.submit "Log in", class: "btn btn-primary" %>
+      <%= f.submit "Log in", class: "btn btn-success" %>
     <% end %>
     <br/>
     <p>New user? <%= link_to "Sign up now!", signup_path %></p>

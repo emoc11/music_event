@@ -8,14 +8,13 @@
 				<a href="/users/<%= @creator.id %>"><%= @creator.login %></a>
 			<% end %>
 		</h2>
-		<p>Begin the : <%= @party.date %> at <%= @party.begin_hour %> </p> 
+		<p>Begin the : <%= @party.date %> at <%= @party.begin_hour %>h </p> 
 		<p>Where : <%= @party.adress %></p>
-		<p>Price : <%= @party.price %></p>
+		<p>Price : <%= @party.price %> €</p>
 		<br/>
 		<p>Artist : <%= @party.artist %></p>
 		<% if !@party.description.blank? %>
-		<p>Description :</p>
-		<p><i><%= @party.description %></i></p>
+		<p>Description : <i><%= @party.description %></i></p>
 		<% end %>
 		<hr>
 		<!-- Cas 1 : l'utilisateur connecté n'est pas le créateur de la soirée
@@ -47,8 +46,7 @@
 		<!-- Liste des utilisateurs inscrits à cet event -->
 		<h2>Suscribers :</h2>
 
-		<a href="/users/<%= @creator.id %>"><%= @creator.login %></a>
 		<% @suscribers.each do |s| %>
-			- <a href="/users/<%= s.id %>"><%= s.login %></a>
+			<a href="/users/<%= s.id %>"><%= s.login %></a>
 		<% end %>
 </div>
