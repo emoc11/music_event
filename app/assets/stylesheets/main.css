@@ -1,9 +1,5 @@
-body, html{
-	height: 100%;
-}
 body{
-	background-image: url(http://www.warsteiner.com/wp-content/blogs.dir/2/files/adagio-slideshow/ADAGIO_Party.jpg);
-	background-size:100% 100%;
+	background-color:#02AC9B !important;
 }
 
 .navbar{
