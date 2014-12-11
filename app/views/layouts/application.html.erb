@@ -7,29 +7,38 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  
   <!-- Verification connecté/deconnecté et affichage en fonction -->
   <% if current_user.present?  # Si utilisateur non connecté %>
-    <nav class="navbar navbar-default">
-      <div class="buttons">
-        <%= button_to "Home", {:controller=>"parties", :action=>"index"}, :method => :get, class: "btn btn-success"  %>
-        <%= button_to "Create a party", {:controller=>"parties", :action=>"new"}, :method => :get, class: "btn btn-warning"  %>
-        <%= button_to "Edit my profile", {:controller=>"users", :action=>"edit"}, :method => :get, class: "btn btn-info"  %>
-        <%= button_to "Disconnect", {:controller=>"sessions", :action=>"destroy"}, :method => :delete, class: "btn btn-danger"  %>
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron col-md-12">
+          <div style="float:left">
+            <%= link_to "Home", {:controller=>"parties", :action=>"index"}, :method => :get, class: "btn btn-info" %>
+            <%= link_to "All the parties", "/parties/all", class: "btn btn-info"  %>
+            <%= link_to "Create a new party", new_party_path, class: "btn btn-success"  %>
+          </div>
+          <div style="float:right;">
+            <%= current_user.login %>
+            <%= link_to "Sign out", {:controller=>"sessions", :action=>"destroy"}, :method => :delete, class: "btn btn-danger"  %>
+            <%= link_to "Edit", {:controller=>"users", :action=>"edit", :id=>current_user.id}, :method => :get, class: "btn btn-info" %>
+          </div>
+        </div>
       </div>
-    </nav>
+    </div>
   <% end %>
 
   <!-- Affichage des vues partielles -->
   <div class="container">
     <!-- design pour les message "flash", souvent retour de formulaires -->
-    <% if !flash.blank? %>
+    <% if flash.present? %>
       <div class="alert alert-warning">
       <% flash.each do |message_type, message| %>
         <%= message %>
       <% end %>
     </div>
     <% end %>
-    
+
     <%= yield %>
   </div>
   <!-- Affichage de l'environnement de débug, à suppr avant prod -->

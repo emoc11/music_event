@@ -1,11 +1,7 @@
 <div class="row">
 	<div class="jumbotron col-md-12">
-		<h1>Home</h1>
-		<br/>
-		<%= link_to "Create a new party", new_party_path, class: "btn btn-success"  %>
-		<a href="/parties/all" class="btn btn-info" >All the parties</a>
-		<br/>
-		<hr>
+
+		<h1>Welcome <%= current_user.login %> !</h1>
 
 		<!-- Events crées par l'utilisateur actif -->
 		<div class="container">
