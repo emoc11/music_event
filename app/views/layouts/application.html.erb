@@ -11,10 +11,22 @@
       <% if current_user.blank?  # Si utilisateur non connecté %>
         <%= button_to "Connect", {:controller=>"sessions", :action=>"new"}, :method => :get %>
       <% else %>
-        <span class="navbar-brand">Logged in as : <%= current_user.login %></span>
-        <%= button_to "Home", {:controller=>"parties", :action=>"index"}, :method => :get %>
-        <%= button_to "Edit", {:controller=>"users", :action=>"edit"}, :method => :get %>
-        <%= button_to "Disconnect", {:controller=>"sessions", :action=>"destroy"}, :method => :delete %>
+      <div class="container">
+        <div class="row">
+          <div class="jumbotron col-md-12">
+            <div style="float:left">
+              <%= link_to "Home", {:controller=>"parties", :action=>"index"}, :method => :get, class: "btn btn-info" %>
+              <%= link_to "All the parties", "/parties/all", class: "btn btn-info"  %>
+              <%= link_to "Create a new party", new_party_path, class: "btn btn-success"  %>
+            </div>
+            <div style="float:right;">
+              <%= current_user.login %>
+              <%= link_to "Sign out", {:controller=>"sessions", :action=>"destroy"}, :method => :delete, class: "btn btn-danger"  %>
+              <%= link_to "Edit", {:controller=>"users", :action=>"edit", :id=>current_user.id}, :method => :get, class: "btn btn-info" %>
+            </div>
+          </div>
+        </div>
+      </div>
       <% end %>
 
   <!-- Affichage des vues partielles -->
@@ -27,7 +39,7 @@
       <% end %>
     </div>
     <% end %>
-    
+
     <%= yield %>
   </div>
   <!-- Affichage de l'environnement de débug, à suppr avant prod -->

@@ -42,6 +42,12 @@ class PartiesController < ApplicationController
 
       # On regarde si l'utilisateur est inscrit ou non
       @inscription = PartyUser.where(user_id: current_user.id, party_id: params[:id])
+
+      if @creator.id == @user_id
+        @user_is_creator = true
+      else
+        @user_is_creator = false
+      end
     end
     else
       render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
@@ -74,7 +80,7 @@ class PartiesController < ApplicationController
 
       # On récupère l'organisateur
       @party_creator << User.find(party.user_id)
-    end 
+    end
   end
 
   def suscribe
@@ -118,10 +124,40 @@ class PartiesController < ApplicationController
   end
 
   def destroy
-    # On supprime la soirée
-    Party.find(params[:id]).destroy
-    # On supprime les inscriptions qui lui étaient liées
-    PartyUser.destroy_all(:party_id => params[:id])
-    redirect_to parties_path
+    if Party.exists?(:id => params[:id])
+      Party.find(params[:id]).destroy
+      # On supprime la soirée
+      # On supprime les inscriptions qui lui étaient liées
+      PartyUser.destroy_all(:party_id => params[:id])
+      redirect_to parties_path
+    else
+      render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+    end
+  end
+
+  def edit
+    if Party.exists?(:id => params[:id])
+      @parties = Party.find(params[:id])
+    else
+      render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+    end
+  end
+
+  def update
+    if Party.exists?(:id => params[:id])
+      @parties = Party.find(params[:id])
+      if @parties.update(party_params)
+
+         redirect_to :controller => 'parties', :action => 'show', :id => @parties.id
+      else
+         render :action => 'edit'
+      end
+    else
+      render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+    end
+  end
+
+  def party_params
+    params.require(:party).permit(:user_id, :name, :date, :begin_hour, :artist, :price, :adress, :description)
   end
 end
