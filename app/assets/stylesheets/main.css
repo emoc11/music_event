@@ -1,7 +1,3 @@
-body{
-	background-color:#02AC9B !important;
-}
-
 .navbar{
 	min-height : 0 !important;
 	padding: 4px 0 5px; 
@@ -13,8 +9,4 @@ nav .buttons {
 
 nav form, nav form *{
 	display: inline;
-}
-
-.jumbotron{
-	background-color: rgba(255, 255, 255, 0.85) !important;
 }
