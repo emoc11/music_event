@@ -1,3 +1,11 @@
+body, html{
+	height: 100%;
+}
+body{
+	background-image: url(http://www.warsteiner.com/wp-content/blogs.dir/2/files/adagio-slideshow/ADAGIO_Party.jpg);
+	background-size:100% 100%;
+}
+
 .navbar{
 	min-height : 0 !important;
 	padding: 4px 0 5px; 
@@ -9,4 +17,8 @@ nav .buttons {
 
 nav form, nav form *{
 	display: inline;
+}
+
+.jumbotron{
+	background-color: rgba(255, 255, 255, 0.85) !important;
 }
