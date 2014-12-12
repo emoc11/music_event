@@ -111,14 +111,14 @@ class PartiesController < ApplicationController
     params[:party][:user_id] = @user_id
     @party = Party.new(params.require(:party).permit(:user_id,:name, :date, :begin_hour, :artist, :price, :adress, :description))
       if @party.save
-        @partyUser = PartyUser.new(party_id: @party.id, user_id: @user_id)
-        if @partyUser.save
+        @party_user = PartyUser.new(party_id: @party.id, user_id: @user_id)
+        if @party_user.save
           redirect_to :controller => 'parties', :action => 'show', :id => @party.id
         else
           flash.now.alert = "Something went wrong, please contact admin."
         end
       else
-        flash.now.alert = "Please fill anything before creating the event !"
+        flash.now.alert = "Please fill anything correctly before creating the event !"
         render 'new'
       end
   end
@@ -126,8 +126,8 @@ class PartiesController < ApplicationController
   # Suppression d'une soirée
   def destroy
     if Party.exists?(:id => params[:id])
-      Party.find(params[:id]).destroy
       # On supprime la soirée
+      Party.find(params[:id]).destroy
       # On supprime les inscriptions qui lui étaient liées
       PartyUser.destroy_all(:party_id => params[:id])
       redirect_to parties_path
