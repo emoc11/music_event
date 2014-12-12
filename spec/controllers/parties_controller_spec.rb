@@ -71,13 +71,13 @@ RSpec.describe PartiesController, :type => :controller do
       get :show, :id => @party.id
       expect(response.body).to include("Partie de emoc11")
       expect(response.body).to include("La meilleure soirée !")
-      expect(response.body).to include("Hosted by")
-      expect(response.body).to include("you")
+      expect(response.body).to include("Host :")
+      expect(response.body).to include("emoc11")
 
       get :show, :id => @party2.id
       expect(response.body).to include("Emoc22 event")
       expect(response.body).to include("Mieux que l&#39;autre, ou pas !")
-      expect(response.body).to include("Hosted by")
+      expect(response.body).to include("Host :")
       expect(response.body).to include("emoc22")
     end
 

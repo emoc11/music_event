@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       user = User.find_by_login(params[:session][:login]).authenticate(params[:session][:password])
       if user
         session[:user_id] = user.id
-        redirect_to user, :notice => "Welcome back, #{user.login} !"
+        redirect_to "/parties", :notice => "Welcome back, #{user.login} !"
       else
         flash.now.alert = "Invalid email or password"
         render "new"

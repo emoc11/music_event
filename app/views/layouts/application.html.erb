@@ -19,9 +19,9 @@
             <%= link_to "Create a new party", new_party_path, class: "btn btn-success"  %>
           </div>
           <div style="float:right;">
-            <%= current_user.login %>
-            <%= link_to "Sign out", {:controller=>"sessions", :action=>"destroy"}, :method => :delete, class: "btn btn-danger"  %>
+            <%= link_to current_user.login, {:controller=>"users", :action=>"show", :id=>current_user.id}, :method => :get, class: "btn btn-info" %>
             <%= link_to "Edit", {:controller=>"users", :action=>"edit", :id=>current_user.id}, :method => :get, class: "btn btn-info" %>
+            <%= link_to "Sign out", {:controller=>"sessions", :action=>"destroy"}, :method => :delete, class: "btn btn-danger"  %>
           </div>
         </div>
       </div>
