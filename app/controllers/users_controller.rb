@@ -11,18 +11,15 @@ class UsersController < ApplicationController
     if User.exists?(:id => params[:id])
       isconnect?
       @user = User.find(params[:id])
-      # Soirées créées par l'utilisateur
+
+      # On récupère les soirées créées par l'utilisateur
       @created_parties = Party.where(user_id: @user.id)
 
-      # On récupère les id des utilisateurs qui participent à la soirée
-      party_users = PartyUser.where(party_id: params[:id])
-
+      # ainsi que les participants
       @subscribers = Array.new
 
-      party_users.each_with_index do |p, index|
-        @subscribers[index] = Array.new
-        # On récupère les utilisateurs pour les afficher
-        @subscribers[index] << User.find(p.user_id)
+      @created_parties.each_with_index do |p, index|
+        @subscribers[index] = PartyUser.where(party_id: params[:id]).count
       end
 
     else
@@ -50,6 +47,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # Edition d'un membre
   def edit
     if User.exists?(:id => params[:id])
       isconnect?
@@ -59,6 +57,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # Mise à jour des informations sur un membre
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)

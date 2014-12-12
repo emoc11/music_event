@@ -1,9 +1,11 @@
 <div class="row">
 	<div class="jumbotron col-md-12">
-		<!-- Affichage des infos de l'event -->
+		
+		<!-- Affichage du nom de la soirée -->
 		<h2><span class="alert alert-success"><%= @party.name %></h2><br/>
 		
 		Host : 
+		<!-- Affichage du créateur de la soirée -->
 		<% if @user_is_creator %>
 			<a href="/users/<%= @user_id %>">you</a>
 		<% else %>
@@ -11,6 +13,7 @@
 		<% end %>
 		<br/>
 
+		<!-- Affichage des différentes informations sur la soirée -->
 		Begin the : <%= @party.date %> at <%= @party.begin_hour %>h<br/>
 		Where : <%= @party.adress %><br/>
 		Price : <%= @party.price %> €<br/>
@@ -19,14 +22,16 @@
 		Description : <i><%= @party.description %></i><br/>
 		<% end %>
 		<hr>
-		<!-- Cas 1 : l'utilisateur connecté est pas le créateur de la soirée
+
+		<!-- Cas 1 : l'utilisateur connecté est le créateur de la soirée
 		Il peut supprimer la soirée  -->
 		<% if @user_is_creator %>
 			<%= link_to "Edit", {:controller=>"parties", :action=>"edit", :id=>@party.id}, :method => :get, class: "btn btn-info" %>
 			<%= link_to "Cancel my party", @party, :method => :delete, class: "btn btn-danger", data: { confirm: "Do you really want to delete '#{@party.name}' event ?" } %>
+		<% else %>
+
 		<!-- Cas 2 : l'utilisateur connecté n'est pas le créateur de la soirée
 		Il peut s'inscrire ou se désinscrire la soirée  -->
-		<% else %>
 			<!-- Utilisateur non inscrit -->
 			<% if @inscription.blank? %>
 				<%= form_for :partyuser, url: {action: "subscribe"} do |f| %>

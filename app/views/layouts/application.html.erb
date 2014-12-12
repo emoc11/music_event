@@ -9,7 +9,7 @@
 <body>
   
   <!-- Verification connecté/deconnecté et affichage en fonction -->
-  <% if current_user.present?  # Si utilisateur non connecté %>
+  <% if current_user.present?  # Si utilisateur connecté %>
     <div class="container">
       <div class="row">
         <div class="jumbotron col-md-12">
@@ -33,16 +33,14 @@
     <!-- design pour les message "flash", souvent retour de formulaires -->
     <% if flash.present? %>
       <div class="alert alert-warning">
-      <% flash.each do |message_type, message| %>
-        <%= message %>
-      <% end %>
-    </div>
+        <% flash.each do |message_type, message| %>
+          <%= message %>
+        <% end %>
+      </div>
     <% end %>
 
     <%= yield %>
   </div>
-  <!-- Affichage de l'environnement de débug, à suppr avant prod -->
-  <!-- <%= debug(params) if Rails.env.development? %> -->
 
 </body>
 </html>

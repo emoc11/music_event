@@ -6,7 +6,7 @@
 		<p> Email : <%= @user.email %></p>
 
 		<!-- Affichage des soirées qu'il a créées -->
-		<h2>Events of <%= @user.login %></h2>
+		<h2>Events created by <%= @user.login %></h2>
 		<br/>
 
 		<% if @created_parties.blank? %>
@@ -27,9 +27,7 @@
 					<% if p.description.present? %>
 						Description : <i><%= p.description %></i><br/>
 					<% end %>
-					<% if @subscribers.present? && @subscribers[index].present? %>
-						Number of subscribers : <%= @subscribers[index].size %><br/>
-					<% end %>
+					Number of subscribers : <%= @subscribers[index] %><br/>
 				</div>
 			<% end %>
 		<% end %>

@@ -1,13 +1,14 @@
 class SessionsController < ApplicationController
 
+  # Redirection du membre 
   def new
-    if current_user.blank?
-    else
+    # Si le membre est connecté, on le redérige vers la page d'accueil
+    if current_user.present?
       redirect_to "/parties"
     end
   end
 
-  # Connexion d'un utilisateur
+  # Création d'un nouveau membre en BDD 
   def create
     if User.exists?(:login => params[:session][:login])
       user = User.find_by_login(params[:session][:login]).authenticate(params[:session][:password])

@@ -1,9 +1,11 @@
 class PartiesController < ApplicationController
 
+  # Avant le chargement de la vue, on vérifie si l'utilisateur est connecté
   before_action do
     isconnect?
   end
 
+  # Page d'accueil : affichage des soirées créées par l'utilisateur + auxquelles il est inscrit
   def index
 
     # 1) Soirées créées par l'utilisateur
@@ -27,6 +29,7 @@ class PartiesController < ApplicationController
 
   end
 
+  # Affichage d'une soirée
   def show
     # test si existe en BDD avant utilisation
     if Party.exists?(:id => params[:id])
@@ -58,7 +61,7 @@ class PartiesController < ApplicationController
 
   end
 
-  # Montrer toutes les soirées
+  # Affichage de toutes les soirées
   def all
     # On récupère toutes les soirées
     @parties = Party.all
@@ -78,23 +81,25 @@ class PartiesController < ApplicationController
     end
   end
 
+  # Inscription à une soirée
   def subscribe
 
     # on enregistre l'inscription du user à la soirée
     @inscription = PartyUser.new(params.require(:partyuser).permit(:user_id, :party_id))
 
+    # Si l'enregistrement a bien été effectué
     if @inscription.save
+      # redirection sur la page de la soirée
       redirect_to :controller => 'parties', :action => 'show', :id => params[:partyuser][:party_id]
     else
-      render status: 404
+      # sinon on renvoie une erreur 404
+      render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
     end
-
-    # redirection sur la page de la soirée
   end
 
+  # Désinscription d'une soirée
   def unsubscribe
-
-    # on supprime l'inscription du user à la soirée
+    # on supprime l'inscription du membre à la soirée
     PartyUser.where(user_id: params[:unsubscribe][:user_id]).where(party_id: params[:unsubscribe][:party_id]).destroy_all
 
     # redirection sur la page de la soirée
@@ -118,6 +123,7 @@ class PartiesController < ApplicationController
       end
   end
 
+  # Suppression d'une soirée
   def destroy
     if Party.exists?(:id => params[:id])
       Party.find(params[:id]).destroy
@@ -130,6 +136,7 @@ class PartiesController < ApplicationController
     end
   end
 
+  # Formulaire de modification d'une soirée
   def edit
     if Party.exists?(:id => params[:id])
       @parties = Party.find(params[:id])
@@ -138,6 +145,7 @@ class PartiesController < ApplicationController
     end
   end
 
+  # Mise à jour des informations d'une soirée
   def update
     if Party.exists?(:id => params[:id])
       @parties = Party.find(params[:id])
@@ -152,6 +160,7 @@ class PartiesController < ApplicationController
     end
   end
 
+  # Récupération des paramètres du formulaire
   def party_params
     params.require(:party).permit(:user_id, :name, :date, :begin_hour, :artist, :price, :adress, :description)
   end
