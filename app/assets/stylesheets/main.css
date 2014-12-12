@@ -10,3 +10,15 @@ nav .buttons {
 nav form, nav form *{
 	display: inline;
 }
+
+h1 i {
+	font-size: .5em;
+}
+
+h1, h1 i {
+	line-height: .7em !important;
+}
+
+h1 {
+	margin-bottom: .5em !important;
+}
